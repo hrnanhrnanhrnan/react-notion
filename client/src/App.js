@@ -1,22 +1,23 @@
-import './App.css';
+import './style.css';
 import {useState, useEffect} from "react"
 import {Button} from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { useFetch } from './containers/UseFetch';
 
 export const App = () => {
 
   return (
     <div className="App container-fluid text-center bg-dark">
-        <Button className='' onClick={async () => {
-          const res = await fetch("/get_database")
-          const jsonRes = await res.json()
-          console.log(jsonRes)
+        <Button className='data-btn' onClick={async () => {
+          const response = await fetch("/get_database")
+          const jsonResponse = await response.json()
+          console.log(jsonResponse)
         }}>Hämta databas</Button>
 
-        <Button className='data-btn m-2' onClick={async () => {
-          const res = await fetch("/get_page")
-          const jsonRes = await res.json()
-          console.log(jsonRes)
+        <Button className='data-btn btn-secondary' onClick={async () => {
+          const response = await fetch("/get_page")
+          const jsonResponse = await response.json()
+          console.log(jsonResponse)
         }}>Hämta sida</Button>
         </div>
   )
