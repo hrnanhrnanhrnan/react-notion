@@ -29,7 +29,12 @@ app.get("/get_database", async (req, res) => {
     res.send(query.results)
 })
 
+<<<<<<< HEAD
 //Server endpoint
+=======
+//Freddy wuz her
+
+>>>>>>> 4f6b10c71079e089c272fe1d22eeffd960fa8894
 app.get("/get_page", async (req, res) => {
     const page = await notion.pages.retrieve({
         page_id: process.env.NOTION_PAGE_ID
