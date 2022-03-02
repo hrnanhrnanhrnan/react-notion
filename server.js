@@ -18,6 +18,8 @@ app.get("/get_database", async (req, res) => {
     res.send(query.results)
 })
 
+//Freddy wuz her
+
 app.get("/get_page", async (req, res) => {
     const page = await notion.pages.retrieve({
         page_id: process.env.NOTION_PAGE_ID
