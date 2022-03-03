@@ -10,35 +10,43 @@ const notion = new Client({
 
 app.listen(port, () => console.log(`Listening on port: ${port}`))
 
-//Server endpoint
-app.get("/get_database", async (req, res) => {
+//Server endpoint to get database sorted
+app.get("/get_database_sorted", async (req, res) => {
     const query = await notion.databases.query({
         database_id: process.env.NOTION_DATABASE_ID
     })
 
-    // const list = query.results.map((row) => {
-    //     //const projectNameCell = row.properties["ProjectName"]["title"][0]["text"]["content"]
-    //     const statusCell = row.properties["Status"]["select"]["name"]
-    //     const hoursCell = row.properties["Hours"]["number"]
-    //     const workedHoursCell = row.properties["Worked Hours"]["rollup"]["number"]
-    //     const hoursLeftCell = row.properties["Hours Left"]["formula"]["number"]
-    //     const timespanCell = `${row.properties["TimeSpan"]["date"]["start"]} - ${row.properties["TimeSpan"]["date"]["end"]}`
-    //     return {projectName: projectNameCell, status: statusCell, hours: hoursCell, workedHours: workedHoursCell, hoursLeft: hoursLeftCell, timespan: timespanCell}
-    // })
-    
-    res.send(query.results)
+    const list = query.results.map((row) => {
+        const projectName = row.properties.Projectname.title[0].text.content
+        const status = row.properties.Status.select?.name
+        const hours = row.properties.Hours.number
+        const workedHours = row.properties["Worked hours"].number
+        const hoursLeft = row.properties["Hours left"].formula.number
+        const timespan = `${row.properties.Timespan.date?.start} - ${row.properties.Timespan.date?.end}`
+
+        return {projectName, status, hours, workedHours, hoursLeft, timespan}
+    })
+
+    res.send(list)
 })
 
-<<<<<<< HEAD
-//Server endpoint
-=======
 //Freddy wuz her
 
->>>>>>> 4f6b10c71079e089c272fe1d22eeffd960fa8894
+//Server endpoint to get page unsorted
 app.get("/get_page", async (req, res) => {
     const page = await notion.pages.retrieve({
         page_id: process.env.NOTION_PAGE_ID
     })
 
     res.send(page)
+})
+
+
+//Server endpoint to get database unsorted
+app.get("/get_database", async (req, res) => {
+    const query = await notion.databases.query({
+        database_id: process.env.NOTION_DATABASE_ID
+    })
+
+    res.send(query)
 })

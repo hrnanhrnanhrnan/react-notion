@@ -9,7 +9,7 @@ export const App = () => {
   return (
     <div className="App container-fluid text-center bg-dark">
         <Button className='data-btn' onClick={async () => {
-          const response = await fetch("/get_database")
+          const response = await fetch("/get_database_sorted")
           const jsonResponse = await response.json()
           console.log(jsonResponse)
         }}>Hämta databas</Button>
