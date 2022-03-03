@@ -9,7 +9,7 @@ export const LoginContainer = () => {
     ]
 
     return (
-        <div>
+        <div className="container-fluid">
             <Select options={options} />
         </div>
     )
