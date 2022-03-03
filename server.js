@@ -17,7 +17,6 @@ app.get("/get_database", async (req, res) => {
         database_id: process.env.NOTION_DATABASE_ID
     })
     
-
     // const list = query.results.map((row) => {
     //     const projectName = row.properties.Projectname.title[0].text.content
     //     const status = row.properties.Status.select?.name
