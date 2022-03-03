@@ -10,13 +10,13 @@ const notion = new Client({
 
 app.listen(port, () => console.log(`Listening on port: ${port}`))
 
-
 //GET routes
 //Server endpoint to get database sorted
 app.get("/get_database_sorted", async (req, res) => {
     const query = await notion.databases.query({
         database_id: process.env.NOTION_DATABASE_ID
     })
+    
 
     // const list = query.results.map((row) => {
     //     const projectName = row.properties.Projectname.title[0].text.content
@@ -34,7 +34,6 @@ app.get("/get_database_sorted", async (req, res) => {
 
 //Freddy wuz her
 
-//Server endpoint to get page unsorted
 app.get("/get_page", async (req, res) => {
     const page = await notion.pages.retrieve({
         page_id: process.env.NOTION_PAGE_ID
@@ -44,7 +43,6 @@ app.get("/get_page", async (req, res) => {
 })
 
 
-//Server endpoint to get database unsorted
 app.get("/get_database", async (req, res) => {
     const query = await notion.databases.query({
         database_id: process.env.NOTION_DATABASE_ID
