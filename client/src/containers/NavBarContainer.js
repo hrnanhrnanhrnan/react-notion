@@ -15,6 +15,7 @@ export const NavBarContainer = () => {
               <Nav.Link as={NavLink} to="/">home</Nav.Link>
               <Nav.Link as={NavLink} to="/projects">projects</Nav.Link>
               <Nav.Link as={NavLink} to="/test">test</Nav.Link>
+              <Nav.Link as={NavLink} to="/login">login</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -7,6 +7,7 @@ import { GetDataContainer } from './containers/GetDataContainer';
 import { NavBarContainer } from './containers/NavBarContainer';
 import { HomeContainer } from './containers/HomeContainer';
 import { TestContainer } from './containers/TestContainer';
+import { LoginContainer } from './containers/LoginContainer';
 
 export const App = (props) => {
   return (
@@ -16,6 +17,7 @@ export const App = (props) => {
         <Route path="/" element={<HomeContainer />}/>
         <Route path="/projects" element={<GetDataContainer />}/>
         <Route path="/test" element={<TestContainer />}/>
+        <Route path="/login" element={<LoginContainer />}/>
       </Routes>
     </Router>
 
