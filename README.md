@@ -10,14 +10,12 @@ Allt som står inom "" i nedan beskrivning är alltså själva kommandot eller f
 
 KOMMA IGÅNG:
 
-Notera om nedan saker inte fungerar så kan det vara så att ni måste köra "npm install" i client foldern, och testa nedan steg igen.
+Notera om nedan saker inte fungerar så kan det vara så att ni måste köra "npm install" i client foldern, och testa sedan nedan steg igen.
 
 1. Börja med att skapa en ".env" fil i root foldern. I den filen lägger du in din Notion token, och id till den databas som du vill kalla på. Den ska se ut såhär:
 
 NOTION_TOKEN='HÄR SKA DIN NOTION TOKEN FINNAS'
-
 NOTION_DATABASE_ID='HÄR SKA ID FINNAS TILL DEN DATABAS DU VILL KALLA PÅ'
-
 NOTION_PAGE_ID='HÄR SKA ID FINNAS TILL DEN SIDA DU VILL KALLA PÅ'
 
 2. Öppna en terminal i VSCODE. När du står i root foldern skriv kommandot "npm run proxy". Du ska då få ett meddelande i terminalen där det står "Listening on port: 5000" om allt fungerar som det ska.
@@ -39,3 +37,20 @@ Om något fel skulle uppstå när du kör kommandot "npm start" så testa att ba
 
 VID FELMEDDELANDE "Module not found: Error: Can't resolve 'react-router-dom' in ....":
 Testa kör "npm install react-router-dom@6" client-foldern och upprepa ovan 1-2
+
+FÖR ATT JOBBA MED GIT OCH GITHUB:
+
+För att ta hem repositoryt:
+
+1. Med hjälp av terminalen navigera in i den foldern där du vill att projektet (repositoryt) ska ligga
+2. Kör kommandot "git clone hrnanhrnanhrnan/react-notion" (det här clonar github repositoryt till din folder på din dator)
+3. Navigera sedan in i repository-foldern med hjälp av terminalen
+4. När du står i repo-foldern kör kommandot "git remote add origin https://github.com/hrnanhrnanhrnan/react-notion.git"
+
+För att jobba med synkning mot repositoryt:
+Alla git-kommandon ska utföras från root foldern (\react-notion)
+
+1. Kör kommandot "git pull" (ska alltid köras först för att ta hem ändringar innan man addar, commitar, och pushar)
+2. "git add -A" (för att lägga till alla ändrade filer)
+3. "git commit -m 'MEDDELANDE' (för att commita ändringar)
+4. "git push origin main" (för att pusha ändringar till remote repositoryt)
