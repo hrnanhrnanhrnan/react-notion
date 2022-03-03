@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom"
 export const NavBarContainer = () => {
 
     return (
-        <Navbar display="flex"  bg="dark" variant="dark" expand="sm" className="pb-3">
+        <Navbar display="flex"  bg="dark" variant="dark" expand="sm" className="pb-3 sticky-top">
         <Container>
           <Navbar.Brand>Hemsida</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
