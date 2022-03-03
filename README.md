@@ -18,16 +18,16 @@ NOTION_DATABASE_ID='HÄR SKA ID FINNAS TILL DEN DATABAS DU VILL KALLA PÅ'
 
 NOTION_PAGE_ID='HÄR SKA ID FINNAS TILL DEN SIDA DU VILL KALLA PÅ'
 
-2. Öppna en terminal i VSCODE. När du står i root foldern skriv kommandot "node server.js". Du ska då få ett meddelande i terminalen där det står "Listening on port: 5000" om allt fungerar som det ska.
+2. Öppna en terminal i VSCODE. När du står i root foldern skriv kommandot "npm run proxy". Du ska då få ett meddelande i terminalen där det står "Listening on port: 5000" om allt fungerar som det ska.
 
 3. Nu kan du öppna en ny terminal och därifrån navigerar du in i "client" foldern. När du står i "client" foldern
    skriv kommandot "npm start" för att starta React. I browsern öppna konsolen. Klicka på "Hämta data" på React hemsidan och om allt går som det ska så kan du då se datan i konsolen.
 
-4. Om ni vill stänga ned servern eller React så är det bara att skriva Ctrl + C i respektive terminal.
+4. Om ni vill stänga ned servern eller React så är det bara att skriva Ctrl + C i respektive terminal och välja "y" för "yes".
 
 VID ÄNDRINGAR:
-Vid ändringar i React-appen så är det bara att spara i VSCODE och uppdatera browsern för att se ändringarna direkt.
-Men vid ändringar i server.js så måste man först stänga ned servern via commandot ctrl + C och sedan spara sina ändringar i server.js och därefter starta servern igen via "node server.js"
+Vid ändringar i React-appen eller i servern så är det bara att spara i VSCODE och uppdatera browsern för att se ändringarna direkt.
+Eftersom nodemon är installerat för servern så räcker det att starta igång servern via kommandot ovan och därefter så kommer alla ändringar som sparas i servern att automatiskt starta om servern. Återigen om ni får "Listening on port 5000" i terminalen så är servern up and running igen
 
 VID FELMEDDELANDE "'react-scripts' is not recognized as an internal or external command, operable program or batch file":
 Stäng ned servern och React och navigera till client-foldern och kör kommandot "npm install" och testa sedan att starta server React på nytt enligt ovan beskrivningar

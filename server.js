@@ -10,24 +10,26 @@ const notion = new Client({
 
 app.listen(port, () => console.log(`Listening on port: ${port}`))
 
+
+//GET routes
 //Server endpoint to get database sorted
 app.get("/get_database_sorted", async (req, res) => {
     const query = await notion.databases.query({
         database_id: process.env.NOTION_DATABASE_ID
     })
 
-    const list = query.results.map((row) => {
-        const projectName = row.properties.Projectname.title[0].text.content
-        const status = row.properties.Status.select?.name
-        const hours = row.properties.Hours.number
-        const workedHours = row.properties["Worked hours"].number
-        const hoursLeft = row.properties["Hours left"].formula.number
-        const timespan = `${row.properties.Timespan.date?.start} - ${row.properties.Timespan.date?.end}`
+    // const list = query.results.map((row) => {
+    //     const projectName = row.properties.Projectname.title[0].text.content
+    //     const status = row.properties.Status.select?.name
+    //     const hours = row.properties.Hours.number
+    //     const workedHours = row.properties["Worked hours"].number
+    //     const hoursLeft = row.properties["Hours left"].formula.number
+    //     const timespan = `${row.properties.Timespan.date?.start} - ${row.properties.Timespan.date?.end}`
 
-        return {projectName, status, hours, workedHours, hoursLeft, timespan}
-    })
+    //     return {projectName, status, hours, workedHours, hoursLeft, timespan}
+    // })
 
-    res.send(list)
+    res.send(query)
 })
 
 //Freddy wuz her
@@ -50,3 +52,15 @@ app.get("/get_database", async (req, res) => {
 
     res.send(query)
 })
+
+
+
+//POST routes
+
+
+
+//PUT routes
+
+
+
+//DELETE routes
