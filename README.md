@@ -10,6 +10,8 @@ Allt som står inom "" i nedan beskrivning är alltså själva kommandot eller f
 
 KOMMA IGÅNG:
 
+Notera om nedan saker inte fungerar så kan det vara så att ni måste köra "npm install" i client foldern, och testa nedan steg igen.
+
 1. Börja med att skapa en ".env" fil i root foldern. I den filen lägger du in din Notion token, och id till den databas som du vill kalla på. Den ska se ut såhär:
 
 NOTION_TOKEN='HÄR SKA DIN NOTION TOKEN FINNAS'
@@ -34,3 +36,6 @@ Stäng ned servern och React och navigera till client-foldern och kör kommandot
 
 VID FELMEDDELANDE I BROWSERN PÅ REACT-START:
 Om något fel skulle uppstå när du kör kommandot "npm start" så testa att bara gå in på VSCODE och tryck på ctrl + S i package.json filen i client-foldern och därefter klicka ned felmeddelandet i browsern så ska allting funka som det ska igen. Gör det inte det så har något annat fel inträffat och då har jag ingen koll på vad det är (fram med Google och börja leta)
+
+VID FELMEDDELANDE "Module not found: Error: Can't resolve 'react-router-dom' in ....":
+Testa kör "npm install react-router-dom@6" client-foldern och upprepa ovan 1-2
