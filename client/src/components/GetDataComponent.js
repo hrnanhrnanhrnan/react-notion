@@ -26,7 +26,6 @@ export const GetDataComponent = (props) => {
                                         <li>Timespan: {`${row.properties.Timespan.date?.start} - ${row.properties.Timespan.date?.end}`}</li>
                                     </ul>
                                 </li>
-
                             ))
                         }
                     </ul>
