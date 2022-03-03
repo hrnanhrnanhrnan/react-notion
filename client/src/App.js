@@ -9,7 +9,7 @@ import { HomeContainer } from './containers/HomeContainer';
 import { TestContainer } from './containers/TestContainer';
 
 export const App = (props) => {
-
+//Robin är bäst, ingen protest.
   return (
     <Router>
       <NavBarContainer />
