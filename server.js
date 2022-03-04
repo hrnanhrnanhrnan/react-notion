@@ -43,7 +43,7 @@ app.get("/get_page", async (req, res) => {
 
 app.get("/get_users", async (req, res) => {
     const users = await notion.users.list()
-    res.json(users.results)
+    res.send(users)
 })
 
 
