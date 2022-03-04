@@ -28,7 +28,7 @@ app.get("/get_database", async (req, res) => {
     //     return {projectName, status, hours, workedHours, hoursLeft, timespan}
     // })
 
-    res.send(query)
+    res.send(query) 
 })
 
 //Freddy wuz her
