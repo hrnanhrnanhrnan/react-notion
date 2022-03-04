@@ -1,8 +1,12 @@
-import React, { Component, useState} from "react"
+import React, { Component, useContext, useState} from "react"
 import Select from "react-select"
+import { useFetch } from "../customHooks/UseFetch";
+import { UserContext } from "../customHooks/UserContext";
 
-export const LoginContainer = () => {
-
+export function LoginContainer() {
+  const {data, isLoading, error} = useFetch("/get_users");
+  console.log(data);
+  const {value, setValue} = useContext(UserContext);
     const [selectedUser, setSelectedUser] = useState()
 
     const options = [
@@ -14,14 +18,13 @@ export const LoginContainer = () => {
         setSelectedUser(person)
     }
 
+
+
     return (
         <div className="container-fluid">
             <Select options={options} onChange={handleChange} />
-            <button onClick={
-                console.log(selectedUser)
-                
-            }>login</button>
+            <button onClick={() => {setValue(selectedUser)}}>login</button>
+            
         </div>
-        
     )
 }
