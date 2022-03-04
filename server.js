@@ -41,6 +41,13 @@ app.get("/get_page", async (req, res) => {
     res.send(page)
 })
 
+app.get("/get_users", async (req, res) => {
+    const users = await notion.users.list()
+    res.json(users.results)
+})
+
+
+
 
 app.get("/get_database", async (req, res) => {
     const query = await notion.databases.query({
