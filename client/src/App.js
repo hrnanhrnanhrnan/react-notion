@@ -18,8 +18,8 @@ export const App = (props) => {
     <Router>
       <NavBarContainer />
         <Routes>
-          <Route path="/login" element={<LoginContainer />}/>
-          <Route path="/" element={<HomeContainer />}/>
+          <Route path="/" element={<LoginContainer />}/>
+          <Route path="/home" element={<HomeContainer />}/>
           <Route path="/projects" element={<GetDataContainer />}/>
           <Route path="/test" element={<TestContainer />}/>
         </Routes>

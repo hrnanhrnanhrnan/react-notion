@@ -21,7 +21,7 @@ export function LoginContainer() {
 
     let navigate = useNavigate();
     function routeChange() {
-        let path = "/";
+        let path = "/home";
         navigate(path);
     }
 
