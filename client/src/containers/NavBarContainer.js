@@ -21,5 +21,4 @@ export const NavBarContainer = () => {
         </Container>
       </Navbar>
     )
-    
 }
