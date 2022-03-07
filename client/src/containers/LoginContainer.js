@@ -12,7 +12,10 @@ export function LoginContainer() {
 
     const options = [
         {value: 1, label: 'Robin', authorized: false},
-        {value: 2, label: 'Freddy', authorized: false}
+        {value: 2, label: 'Freddy', authorized: false},
+        {value: 3, label: 'Jonathan', authorized: false},
+        {value: 4, label: 'Kim', authorized: false},
+        {value: 5, label: 'Peter', authorized: false}
     ]
     
     const handleChange = (person) =>{
