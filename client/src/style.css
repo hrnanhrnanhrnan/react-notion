@@ -12,6 +12,10 @@ html {
   box-sizing: border-box;
 }
 
+#login-container {
+  min-height: 100vh;
+}
+
 .container-fluid {
   display: flex;
   min-height: 80vh;

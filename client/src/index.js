@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {App} from './App';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
 import { LoginContainer } from './containers/LoginContainer';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AuthProvider } from './contexts/AuthContext';
 import { RequireAuth } from './RequireAuth';
 
 

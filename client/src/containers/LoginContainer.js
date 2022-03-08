@@ -12,9 +12,11 @@ export function LoginContainer() {
     const navigate = useNavigate();
 
     const options = [
-        {value: 1, label: 'Owner', authorized: false},
-        {value: 2, label: 'Projectleader', authorized: false}
+        {value: 1, label: 'Owner'},
+        {value: 2, label: 'Projectleader'}
     ]
+
+    console.log(auth.storedUser)
 
     const handleChange = (person) =>{
         setSelectedUser(person)
@@ -22,7 +24,7 @@ export function LoginContainer() {
 
     !isLoading && (() => {
         const realUsers = data.results.filter((user) => user.type !== "bot")
-        realUsers.map((user) => options.push({value: user.id, label: user.name, authorized: false}))
+        realUsers.map((user) => options.push({value: user.id, label: user.name}))
     })()
 
     
@@ -37,7 +39,7 @@ export function LoginContainer() {
     };
 
     return (
-        <div className="container-fluid">
+        <div id="login-container" className="container-fluid">
 
             {
                 isLoading ? (
