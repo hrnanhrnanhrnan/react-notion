@@ -16,7 +16,7 @@ export const App = (props) => {
   return (
     <UserContext.Provider value={{value, setValue}}>
     <Router>
-      <NavBarContainer />
+    <NavBarContainer />
         <Routes>
           <Route path="/" element={<LoginContainer />}/>
           <Route path="/home" element={<HomeContainer />}/>

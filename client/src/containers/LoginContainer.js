@@ -3,24 +3,28 @@ import Select from "react-select"
 import { useFetch } from "../customHooks/UseFetch";
 import { UserContext } from "../customHooks/UserContext";
 import { useNavigate } from "react-router-dom";
+import {Button} from "react-bootstrap"
 
 export function LoginContainer() {
   const {data, isLoading, error} = useFetch("/get_users");
   const {value, setValue} = useContext(UserContext);
     const [selectedUser, setSelectedUser] = useState()
-    console.log(data)
+
 
     const options = [
-        {value: 1, label: 'Robin', authorized: false},
-        {value: 2, label: 'Freddy', authorized: false},
-        {value: 3, label: 'Jonathan', authorized: false},
-        {value: 4, label: 'Kim', authorized: false},
-        {value: 5, label: 'Peter', authorized: false}
+        {value: 1, label: 'Owner', authorized: false},
+        {value: 2, label: 'Projectleader', authorized: false},
+        {value: 3, label: 'User', authorized: false}
     ]
-    
+
     const handleChange = (person) =>{
         setSelectedUser(person)
     }
+
+    !isLoading && (() => {
+        const realUsers = data.results.filter((user) => user.type !== "bot")
+        realUsers.map((user) => options.push({value: user.id, label: user.name, authorized: false}))
+    })()
 
     let navigate = useNavigate();
     function routeChange() {
@@ -32,13 +36,28 @@ export function LoginContainer() {
         return setValue(selectedUser);
     };
     //Hejhej
+    
     return (
         <div className="container-fluid">
-            <Select options={options} onChange={handleChange} />
-            <button onClick={() => 
-                {routeChange(); 
-                onClickHandle();
-                }}>login</button>
+
+            {
+                isLoading ? (
+                    <>
+                        <div className="spinner-border text-muted">
+                        </div>
+                        <p>{error}</p>
+                    </>
+                ) : (
+                    <>
+                    <Select options={options} onChange={handleChange} />
+                        <Button onClick={() => 
+                        {routeChange(); 
+                        onClickHandle();
+                        }}>login</Button>
+                        </>
+                )
+            }
+
         </div>
     )
 }

@@ -2,6 +2,10 @@
   --main-color: rgb(119, 0, 255);
 }
 
+#root {
+  min-height: 100vh;
+}
+
 html {
   padding: 0;
   margin: 0;
@@ -9,8 +13,8 @@ html {
 }
 
 .container-fluid {
-  min-height: 100vh;
   display: flex;
+  min-height: 80vh;
   justify-content: center;
   align-items: center;
   gap: 1rem;

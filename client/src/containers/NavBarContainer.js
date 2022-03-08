@@ -8,7 +8,7 @@ export const NavBarContainer = () => {
     return (
         <Navbar display="flex"  bg="dark" variant="dark" expand="sm" className="pb-3 sticky-top">
         <Container>
-          <Navbar.Brand>Hemsida</Navbar.Brand>
+          <Navbar.Brand>Lion-org</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">

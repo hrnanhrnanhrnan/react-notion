@@ -18,8 +18,8 @@ export const GetDataComponent = (props) => {
                     <h1 className="display-6">Projects</h1>
                     <ul>
                         {
-                            props.dataParam.results.map((row, idx) => (
-                                <li className="pt-3" id={idx}>{row.properties.Projectname.title[0].text.content}
+                            props.dataParam.results.map((row) => (
+                                <li className="pt-3">{row.properties.Projectname.title[0].text.content}
                                     <ul>
                                         <li>Status: {row.properties.Status.select?.name}</li>
                                         <li>Hours: {row.properties.Hours.number}</li>
