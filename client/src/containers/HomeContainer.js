@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import { UserContext } from "../customHooks/UserContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export const HomeContainer = () => {
-    const {value, setValue} = useContext(UserContext);
+    const auth = useAuth()
     return (
         <div className="container-fluid display-1 bg-dark text-white">
-            Välkommen {value.label}
+            Välkommen {auth?.user?.label}
             
         </div>
     )

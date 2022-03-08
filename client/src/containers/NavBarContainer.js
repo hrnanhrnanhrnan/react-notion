@@ -2,9 +2,13 @@ import React from "react"
 import { Navbar, Nav } from "react-bootstrap"
 import { Container } from "react-bootstrap"
 import { NavLink } from "react-router-dom"
+import { useAuth } from "../contexts/AuthContext"
 
 export const NavBarContainer = () => {
-
+  const auth = useAuth()
+  const handleClick = () => {
+    auth.logout()
+  }
     return (
         <Navbar display="flex"  bg="dark" variant="dark" expand="sm" className="pb-3 sticky-top">
         <Container>
@@ -15,7 +19,7 @@ export const NavBarContainer = () => {
               <Nav.Link as={NavLink} to="/home">home</Nav.Link>
               <Nav.Link as={NavLink} to="/projects">projects</Nav.Link>
               <Nav.Link as={NavLink} to="/test">test</Nav.Link>
-              <Nav.Link as={NavLink} to="/" hidden>login</Nav.Link>
+              <Nav.Link onClick={handleClick}>logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
