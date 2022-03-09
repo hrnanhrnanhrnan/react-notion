@@ -15,9 +15,7 @@ export function LoginContainer() {
         {value: 1, label: 'Owner'},
         {value: 2, label: 'Projectleader'}
     ]
-
-    console.log(auth.storedUser)
-
+    
     const handleChange = (person) =>{
         setSelectedUser(person)
     }
