@@ -6,9 +6,12 @@ import { useAuth } from "../contexts/AuthContext"
 
 export const NavBarContainer = () => {
   const auth = useAuth()
+
+  //On logout click in Navbar, call logout in AuthContext
   const handleClick = () => {
     auth.logout()
   }
+
     return (
         <Navbar display="flex"  bg="dark" variant="dark" expand="sm" className="pb-3 sticky-top">
         <Container>

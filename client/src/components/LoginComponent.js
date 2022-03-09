@@ -3,6 +3,7 @@ import {Button} from "react-bootstrap"
 import Select from "react-select"
 
 export const LoginComponent = (props) => {
+    //Returns complete page with data from LoginContainer(props) and then mounts when called
     return (
         <div id="login-container" className="container-fluid">
         {

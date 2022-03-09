@@ -8,6 +8,7 @@ import { RequireAuth } from './RequireAuth';
 
 
 const Index = () => {
+  //Handling login, authorization from loginComponent/Container
   return (
     <AuthProvider>
     <Routes>
@@ -18,6 +19,7 @@ const Index = () => {
   )
 }
 
+//Renders LoginContainer
 ReactDOM.render(
   <React.StrictMode>
   <Router>
