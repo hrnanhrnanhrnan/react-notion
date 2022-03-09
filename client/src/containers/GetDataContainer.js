@@ -8,7 +8,7 @@ export const GetDataContainer = () => {
   const {data, isLoading, error} = useFetch("/get_database")
 
   return (
-    <GetDataComponent dataParam={data} loadingParam={isLoading} errorParam={error} />
+    <GetDataComponent data={data} isLoading={isLoading} error={error} />
   )
 }
 

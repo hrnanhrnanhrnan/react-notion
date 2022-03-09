@@ -6,18 +6,18 @@ export const GetDataComponent = (props) => {
     return (
         <div className="App container-fluid bg-dark text-white">
             {
-                props.loadingParam ? (
+                props.isLoading ? (
                     <>
                         <div className="spinner-border text-muted">
                         </div>
-                        <p>{props.errorParam}</p>
+                        <p>{props.error}</p>
                     </>
                 ) : (
                     <div>
                     <h1 className="display-6">Projects</h1>
                     <ul>
                         {
-                            props.dataParam.results.map((row) => (
+                            props.data.results.map((row) => (
                                 <li key={row.id + 1} className="pt-3">{row.properties.Projectname.title[0].text.content}
                                     <ul key={row.id + 2}>
                                         <li key={row.id + 3}>Status: {row.properties.Status.select?.name}</li>
