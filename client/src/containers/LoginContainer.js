@@ -1,9 +1,8 @@
-import React, { Component, useContext, useEffect, useState} from "react"
-import Select from "react-select"
+import React, { useState} from "react"
 import { useFetch } from "../customHooks/UseFetch";
 import { useNavigate } from "react-router-dom";
-import {Button} from "react-bootstrap"
 import {useAuth} from "../contexts/AuthContext"
+import { LoginComponent } from "../components/LoginComponent";
 
 export function LoginContainer() {
   const {data, isLoading, error} = useFetch("/get_users");
@@ -33,30 +32,10 @@ export function LoginContainer() {
 
     function onClickHandle() {
         auth.login(selectedUser)
-        //document.cookie = `userId=${selectedUser.value};`
     };
 
     return (
-        <div id="login-container" className="container-fluid">
-
-            {
-                isLoading ? (
-                    <>
-                        <div className="spinner-border text-muted">
-                        </div>
-                        <p>{error}</p>
-                    </>
-                ) : (
-                    <>
-                    <Select options={options} onChange={handleChange} />
-                        <Button onClick={() => 
-                        {routeChange(); 
-                        onClickHandle();
-                        }}>login</Button>
-                        </>
-                )
-            }
-
-        </div>
+        <LoginComponent isLoading={isLoading} error={error} options={options}
+         handleChange={handleChange} routeChange={routeChange} onClickHandle={onClickHandle} />
     )
 }

@@ -8,7 +8,7 @@ const notion = new Client({
     auth: process.env.NOTION_TOKEN
   })
 
-app.listen(port, () => console.log(`Listening on port: ${port}`))
+app.listen(port, () => console.log(`...bitcoin-mining initialized on port: ${port}`))
 
 //GET routes
 //Server endpoint to get database sorted

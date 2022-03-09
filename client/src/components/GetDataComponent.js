@@ -1,5 +1,4 @@
 import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css'
 
 export const GetDataComponent = (props) => {
     //Gets data from the parent GetDataContainer through props 
