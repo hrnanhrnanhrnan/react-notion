@@ -16,17 +16,6 @@ app.get("/get_database", async (req, res) => {
     const query = await notion.databases.query({
         database_id: process.env.NOTION_DATABASE_ID
     })
-    
-    // const list = query.results.map((row) => {
-    //     const projectName = row.properties.Projectname.title[0].text.content
-    //     const status = row.properties.Status.select?.name
-    //     const hours = row.properties.Hours.number
-    //     const workedHours = row.properties["Worked hours"].number
-    //     const hoursLeft = row.properties["Hours left"].formula.number
-    //     const timespan = `${row.properties.Timespan.date?.start} - ${row.properties.Timespan.date?.end}`
-
-    //     return {projectName, status, hours, workedHours, hoursLeft, timespan}
-    // })
 
     res.send(query) 
 })
@@ -41,17 +30,15 @@ app.get("/get_page", async (req, res) => {
     res.send(page)
 })
 
-app.get("/get_users", async (req, res) => {
-    const users = await notion.users.list()
-    res.send(users)
-})
+// app.get("/get_users", async (req, res) => {
+//     const users = await notion.users.list()
+//     res.send(users)
+// })
 
 
-
-
-app.get("/get_database", async (req, res) => {
+app.get("/get_people", async (req, res) => {
     const query = await notion.databases.query({
-        database_id: process.env.NOTION_DATABASE_ID
+        database_id: process.env.NOTION_PEOPLE_DATABASE_ID
     })
 
     res.send(query)

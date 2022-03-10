@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/AuthContext"
 import { LoginComponent } from "../components/LoginComponent";
 
 export function LoginContainer() {
-    const {data, isLoading, error} = useFetch("/get_users"); //Custom hook to get data from Notion through Express server
+    const {data, isLoading, error} = useFetch("/get_people"); //Custom hook to get data from Notion through Express server
     const [selectedUser, setSelectedUser] = useState(null) //State of selected user, default null
     const auth = useAuth() 
     const navigate = useNavigate();
@@ -23,8 +23,7 @@ export function LoginContainer() {
 
     //If it's done fetching from Notion, add users to dropdown menu
     !isLoading && (() => {
-        const realUsers = data.results.filter((user) => user.type !== "bot")
-        realUsers.map((user) => options.push({value: user.id, label: user.name}))
+        data.results.map((user) => options.push({value: user.id, label: user.properties.Name.title[0].plain_text}))
     })()
 
     //Sends user to home page upon login
