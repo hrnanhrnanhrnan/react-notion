@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import {App} from './App';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
@@ -9,6 +9,7 @@ import { RequireAuth } from './RequireAuth';
 
 const Index = () => {
   //Handling login, authorization from loginComponent/Container
+  //If login is successfull you're pushed to the App component
   return (
     <AuthProvider>
     <Routes>
