@@ -2,7 +2,7 @@ import './style.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
 import { GetDataContainer } from './containers/GetDataContainer';
-import { NavbarContainer } from './containers/NavbarContainer';
+import { NavbarContainer } from './containers/NavBarContainer';
 import { HomeContainer } from './containers/HomeContainer';
 import { TestContainer } from './containers/TestContainer';
 
