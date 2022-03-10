@@ -16,6 +16,10 @@ html {
   min-height: 100vh;
 }
 
+.css-b62m3t-container {
+  width: 200px;
+}
+
 .container-fluid {
   display: flex;
   min-height: 80vh;

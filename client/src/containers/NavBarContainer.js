@@ -9,8 +9,9 @@ export const NavbarContainer = () => {
     auth.logout()
   }
 
+
   //Mounts the navbarcomponent and sends in the handleclick eventhandler
     return (
-      <NavbarComponent handleClick={handleClick} />
+      <NavbarComponent handleClick={handleClick} userName={auth?.user?.label}/>
     )
 }
