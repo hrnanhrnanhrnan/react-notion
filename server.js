@@ -44,11 +44,19 @@ app.get("/get_people", async (req, res) => {
     res.send(query)
 })
 
+app.get("/get_timereports", async (req, res) => {
+  const query = await notion.databases.query({
+    database_id: process.env.NOTION_TIMEREPORT_DATABASE_ID
+  })
 
+  res.send(query)
+})
 
 //POST routes
 
-
+app.post("/timereports", async (req, res) => {
+  const query = await notion.env.NO
+})
 
 //PUT routes
 
