@@ -9,6 +9,7 @@ export const AuthProvider = ({children}) => {
     //Adds user to localStorage JSON file. Then sets user in state
     const login = (user) => {
         localStorage.setItem("userData", JSON.stringify(user));
+        isAdminAuth(user)
         setUser(user)
     }
 
@@ -18,6 +19,14 @@ export const AuthProvider = ({children}) => {
         localStorage.clear()
     }
 
+    const isAdminAuth = (user) => {
+        if(user.adminAuthorized === "true"){
+            user.adminAuthorized = true
+        } else {
+            user.adminAuthorized = false
+        }
+    }
+    
     //Returns value to authorize user to continue after login
     return (
         <AuthContext.Provider value={{user, login, logout}}>
