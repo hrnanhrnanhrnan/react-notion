@@ -9,7 +9,7 @@ export function LoginContainer() {
     const [selectedUser, setSelectedUser] = useState(null) //State of selected user, default null
     const auth = useAuth() 
     const navigate = useNavigate();
-    const options = []
+    const options = [] //empty
 
     //Sets person state, to user selected from dropdown menu
     const handleChange = (person) =>{

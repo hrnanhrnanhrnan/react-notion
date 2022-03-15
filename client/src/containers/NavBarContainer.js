@@ -12,6 +12,6 @@ export const NavbarContainer = () => {
 
   //Mounts the navbarcomponent and sends in the handleclick eventhandler
     return (
-      <NavbarComponent handleClick={handleClick} userName={auth?.user?.label}/>
+      <NavbarComponent handleClick={handleClick} user={auth?.user}/>
     )
 }

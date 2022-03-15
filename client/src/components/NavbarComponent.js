@@ -9,14 +9,14 @@ export const NavbarComponent = (props) => {
     return (
         <Navbar display="flex"  bg="dark" variant="dark" expand="sm" className="pb-3 sticky-top">
         <Container>
-          <Navbar.Brand>Lion-org : {props.userName}</Navbar.Brand>
+          <Navbar.Brand>Lion-org : {props.user.label}</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <Nav.Link as={NavLink} to="/home">home</Nav.Link>
               <Nav.Link as={NavLink} to="/projects">projects</Nav.Link>
               <Nav.Link as={NavLink} to="/test">test</Nav.Link>
-              <Nav.Link as={NavLink} to="/admin">admin</Nav.Link>
+              {props.user.adminAuthorized && <Nav.Link as={NavLink} to="/admin">admin</Nav.Link>}
               <Nav.Link onClick={props.handleClick}>logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>
