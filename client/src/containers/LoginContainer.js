@@ -18,8 +18,17 @@ export function LoginContainer() {
 
     //If it's done fetching from Notion, add users to dropdown menu
     !isLoading && (() => {
-        data.results.map((user) => options.push({value: user.id, label: user.properties.Name.title[0].plain_text, adminAuthorized: user.properties.Authorized.rich_text[0].plain_text}))
+        data.results.map((user) => options.push({value: user.id, label: user.properties.Name.title[0].plain_text, adminAuthorized: isAdmin(user)}))
     })()
+
+    //Checks if Authorization is true, sets boolean to true or false
+    function isAdmin(user){
+        if(user?.properties?.Authorized?.rich_text[0]?.plain_text === "true"){
+            return true
+        } else {
+            return false
+        }
+    }
 
     //Sends user to home page upon login
     function routeChange() {

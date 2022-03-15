@@ -7,7 +7,6 @@ export const AdminAuth = ({children}) => {
     if(auth.user.adminAuthorized){
         return children
     } else {
-        alert("You do not have access to this page, LEAVE MORTAL!")
         return <Navigate to="/home" />
     }
 }
