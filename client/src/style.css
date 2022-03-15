@@ -39,3 +39,21 @@ html {
     transform: translateY(0px);
   }
 }
+
+.test {
+  text-align: center;
+  
+}
+
+
+label {
+  margin: 5px;
+  /* display: grid;
+  justify-content: center; */
+}
+
+
+.submitButton {
+  margin-top:10px;
+}
+
