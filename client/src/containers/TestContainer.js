@@ -26,7 +26,7 @@ export const TestContainer = () => {
     const handleClick = () => {
         //this is the endpoint of the server, we use the variabels or values 
         //we get from the form and pass it into the url as parameters 
-        fetch(`/timereports/${date}/${person}/${hours}/${project}/${note}`)
+        fetch(`/timereports/${date}/${person}/${hours}/${project}/${note}`, {method: "POST"})
         .then((response) => {
             if (response.ok) {
                 return response.json()

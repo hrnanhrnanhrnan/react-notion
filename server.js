@@ -61,7 +61,7 @@ app.get("/get_timereports", async (req, res) => {
 //with variables from the form that is being submitted
 //the values from the frontend can then be accessed through req.params and passed into the updateTimeReport method
 //the endpoint then returns success or failure message back to the frontend
-app.get("/timereports/:date/:personId/:hours/:projectId/:note", async (req, res) => {
+app.post("/timereports/:date/:personId/:hours/:projectId/:note", async (req, res) => {
     let message = ""
     let ok = false
     try {

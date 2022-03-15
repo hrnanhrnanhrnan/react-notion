@@ -9,13 +9,8 @@ export function LoginContainer() {
     const [selectedUser, setSelectedUser] = useState(null) //State of selected user, default null
     const auth = useAuth() 
     const navigate = useNavigate();
+    const options = []
 
-    //Dropdown menu, with default values
-    const options = [
-        {value: 1, label: 'Owner'},
-        {value: 2, label: 'Projectleader'}
-    ]
-    
     //Sets person state, to user selected from dropdown menu
     const handleChange = (person) =>{
         setSelectedUser(person)
@@ -23,7 +18,7 @@ export function LoginContainer() {
 
     //If it's done fetching from Notion, add users to dropdown menu
     !isLoading && (() => {
-        data.results.map((user) => options.push({value: user.id, label: user.properties.Name.title[0].plain_text}))
+        data.results.map((user) => options.push({value: user.id, label: user.properties.Name.title[0].plain_text, adminAuthorized: user.properties.Authorized.rich_text[0].plain_text}))
     })()
 
     //Sends user to home page upon login
