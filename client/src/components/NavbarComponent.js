@@ -15,7 +15,7 @@ export const NavbarComponent = (props) => {
             <Nav className="ms-auto">
               <Nav.Link as={NavLink} to="/home">home</Nav.Link>
               <Nav.Link as={NavLink} to="/projects">projects</Nav.Link>
-              <Nav.Link as={NavLink} to="/test">test</Nav.Link>
+              <Nav.Link as={NavLink} to="/timereport">timereport</Nav.Link>
               {props.user.adminAuthorized && <Nav.Link as={NavLink} to="/admin">admin</Nav.Link>}
               <Nav.Link onClick={props.handleClick}>logout</Nav.Link>
             </Nav>

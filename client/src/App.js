@@ -4,7 +4,7 @@ import {Route, Routes} from "react-router-dom"
 import { GetDataContainer } from './containers/GetDataContainer';
 import { NavbarContainer } from './containers/NavBarContainer';
 import { HomeContainer } from './containers/HomeContainer';
-import { TestContainer } from './containers/TestContainer';
+import { TimeReportContainer } from './containers/TimeReportContainer';
 import { AdminContainer } from './containers/AdminContainer';
 import { AdminAuth } from './AdminAuth'
 
@@ -17,7 +17,7 @@ export const App = () => {
         <Routes>
           <Route path="home" element={<HomeContainer />}/>
           <Route path="projects" element={<GetDataContainer />}/>
-          <Route path="test" element={<TestContainer />}/>
+          <Route path="timereport" element={<TimeReportContainer />}/>
           <Route path="admin" element={<AdminAuth><AdminContainer /></AdminAuth>}/>
         </Routes>
         </>

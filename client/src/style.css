@@ -16,9 +16,9 @@ html {
   min-height: 100vh;
 }
 
-.css-b62m3t-container {
+/* .css-b62m3t-container {
   width: 200px;
-}
+} */
 
 .container-fluid {
   display: flex;
@@ -40,9 +40,11 @@ html {
   }
 }
 
-.test {
-  text-align: center;
-  
+
+@media screen and (min-width:900px) {
+  #test {
+  width:20%;
+  }
 }
 
 
