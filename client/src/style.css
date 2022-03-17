@@ -29,6 +29,11 @@ html {
   animation: drop 1s ease;
 }
 
+#projectmenu {
+  align-items:normal;
+  padding-top: 2rem;
+}
+
 @keyframes drop {
   0% {
     opacity: 0;
@@ -58,4 +63,3 @@ label {
 .submitButton {
   margin-top:10px;
 }
-

@@ -1,30 +1,26 @@
 import React from "react";
+import Select from "react-select"
 
 export const GetDataComponent = (props) => {
     //Gets data from the parent GetDataContainer through props 
     //and then uses that data to display it to the screen when it is mounted
 
-    
-    console.log(props.data)
-    
     return (
-        <>
-        
-        
-        <div className="App container-fluid bg-dark text-white">
+        <div className="App container-fluid bg-dark text-white" id="projectmenu">
             {
-                props.isLoading ? (
+              props.isLoading ? (
                     <>
                         <div className="spinner-border text-muted">
                         </div>
                         <p>{props.error}</p>
                     </>
                 ) : (
-                    <div>
-                    <h1 className="display-6">Projects</h1>
+                    <div >
+                    <h1 className="display-6">Select Project</h1>
+                    <Select options = {props.options} onChange={props.handleChange} className=" text-dark position-top" />
                     <ul>
                         {
-                            props.data.results.map((row) => (
+                            props.showProject.map((row) => (
                                 <li key={row.id + 1} className="pt-3">{row.properties.Projectname.title[0].text.content}
                                     <ul key={row.id + 2}>
                                         <li key={row.id + 3}>Status: {row.properties.Status.select?.name}</li>
@@ -41,6 +37,6 @@ export const GetDataComponent = (props) => {
                 )
             }
         </div>
-        </>
     )
+ 
 }
