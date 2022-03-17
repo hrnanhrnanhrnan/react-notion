@@ -36,6 +36,7 @@ export const TimeReportContainer = () => {
     const handleSubmit = (event) => {
       event.preventDefault();
       postRequest(`/timereports/${inputs.date}/${auth.user.value}/${inputs.hours}/${inputs.project}/${inputs.note}`)
+      setInputs({}) 
     }
     
     // Mounts the timereport component and sends the data and methods from container to the component

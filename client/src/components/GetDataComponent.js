@@ -3,7 +3,14 @@ import React from "react";
 export const GetDataComponent = (props) => {
     //Gets data from the parent GetDataContainer through props 
     //and then uses that data to display it to the screen when it is mounted
+
+    
+    console.log(props.data)
+    
     return (
+        <>
+        
+        
         <div className="App container-fluid bg-dark text-white">
             {
                 props.isLoading ? (
@@ -34,5 +41,6 @@ export const GetDataComponent = (props) => {
                 )
             }
         </div>
+        </>
     )
 }

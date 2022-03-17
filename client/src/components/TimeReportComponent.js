@@ -8,21 +8,21 @@ export const TimeReportComponent = (props) => {
         <Form.Group className="mb-5 text-white" controlId="formBasic" >
             <Form.Label>Date: </Form.Label>
                 <Form.Control  
-                className="text-center"
-                placeholder="yyyy-mm-dd"
-                type="text" 
-                name="date" 
-                value={props.inputs.date || ""} 
-                onChange={props.handleChange}
+                    className="text-center"
+                    placeholder="yyyy-mm-dd"
+                    type="text" 
+                    name="date" 
+                    value={props.inputs.date || ""} 
+                    onChange={props.handleChange}
                 />
             <Form.Label>Hours: </Form.Label>
                 <Form.Control 
-                className="text-center"
-                placeholder="hours"
-                type="number" 
-                name="hours" 
-                value={props.inputs.hours || ""} 
-                onChange={props.handleChange}
+                    className="text-center"
+                    placeholder="0"
+                    type="number" 
+                    name="hours" 
+                    value={props.inputs.hours || ""} 
+                    onChange={props.handleChange}
                 />
             <Form.Label>Project: </Form.Label>
                 
@@ -30,11 +30,11 @@ export const TimeReportComponent = (props) => {
     
             <Form.Label>Note: </Form.Label>
                 <Form.Control 
-                placeholder="Comment"
-                as="textarea"
-                name="note" 
-                value={props.inputs.note || ""} 
-                onChange={props.handleChange}
+                    placeholder="Comment"
+                    as="textarea"
+                    name="note" 
+                    value={props.inputs.note || ""} 
+                    onChange={props.handleChange}
                 />
                 <Button variant="primary" type="submit" className="submitButton">Submit</Button>
                 
