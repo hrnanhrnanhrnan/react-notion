@@ -15,7 +15,7 @@ app.listen(port, () => console.log(`...bitcoin-mining initialized on port: ${por
 
 //GET routes
 //Server endpoint to get database sorted
-app.get("/get_database", async (req, res) => {
+app.get("/get_projects", async (req, res) => {
     const query = await notion.databases.query({
         database_id: process.env.NOTION_PROJECTS_DATABASE_ID
     })

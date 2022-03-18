@@ -5,7 +5,7 @@ import {useState} from "react";
 export const GetDataContainer = () => {
   //Calling custom hooks to set state of GetDataContainer
   //GetDataContainer takes care of all logic and then passes that logic to the GetDataComponent when it mounts
-  const {data, isLoading, error} = useFetch("/get_database")
+  const {data, isLoading, error} = useFetch("/get_projects")
   const [showProject, setshowProject] = useState([]);
   const options = [
     {value: "All", label:"All"}
