@@ -1,10 +1,10 @@
 import {useFetch} from "../customHooks/UseFetch.js"
-import { GetDataComponent } from "../components/GetDataComponent.js"
+import { ProjectsComponent } from "../components/ProjectsComponent.js"
 import {useState} from "react";
 
-export const GetDataContainer = () => {
-  //Calling custom hooks to set state of GetDataContainer
-  //GetDataContainer takes care of all logic and then passes that logic to the GetDataComponent when it mounts
+export const ProjectsContainer = () => {
+  //Calling custom hooks to set state of ProjectsContainer
+  //ProjectsContainer takes care of all logic and then passes that logic to the GetDataComponent when it mounts
   const {data, isLoading, error} = useFetch("/get_projects")
   const [showProject, setshowProject] = useState([]);
   const options = [
@@ -32,7 +32,7 @@ export const GetDataContainer = () => {
   
  
   return (
-     <GetDataComponent data={data} isLoading={isLoading} error={error} options={options} showProject={showProject} handleChange={handleChange}/>
+     <ProjectsComponent data={data} isLoading={isLoading} error={error} options={options} showProject={showProject} handleChange={handleChange}/>
   )
 }
 
