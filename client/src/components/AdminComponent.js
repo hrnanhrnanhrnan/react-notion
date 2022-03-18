@@ -7,8 +7,8 @@ export const AdminComponent = (props) => {
 
     return (
         <div className="container-fluid">
-            <Select options={props.userOptions}/>
             <Select options={props.projectOptions}/>
+            <Select options={props.userOptions}/>
         </div>
     )
 }
