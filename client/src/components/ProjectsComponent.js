@@ -17,7 +17,7 @@ export const ProjectsComponent = (props) => {
                 ) : (
                     <div >
                     <h1 className="display-6">Select Project</h1>
-                    <Select options = {props.options} onChange={props.handleChange} className=" text-dark position-top" />
+                    <Select options={props.statusOptions} onChange={props.handleChange} className=" text-dark position-top" />
                     <ul>
                         {
                             props.showProject.map((row) => (
@@ -27,7 +27,7 @@ export const ProjectsComponent = (props) => {
                                         <li key={row.id + 4}>Hours: {row.properties.Hours.number}</li>
                                         <li key={row.id + 5}>Worked hours: {row.properties["Worked hours"].rollup.number}</li>
                                         <li key={row.id + 6}>Hours left: {row.properties["Hours left"].formula.number}</li>
-                                        <li key={row.id + 7}>Timespan: {`${row.properties.Timespan.date?.start} - ${row.properties.Timespan.date?.end}`}</li>
+                                        <li key={row.id + 7}>Timespan: {`${row.properties.Timespan.date?.start} - ${row.properties.Timespan?.date?.end}`}</li>
                                     </ul>
                                 </li>
                             ))

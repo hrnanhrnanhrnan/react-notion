@@ -2,7 +2,6 @@ import { Button, Form } from "react-bootstrap";
 import Select from "react-select"
 import DatePicker, { registerLocale } from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
-import { useState } from "react";
 import sv from "date-fns/locale/sv";
 registerLocale("sv", sv);
 
@@ -20,13 +19,15 @@ export const TimeReportComponent = (props) => {
                 <Form onSubmit={props.handleSubmit} id="test">
                     <Form.Group className="mb-5 text-white" controlId="formBasic" >
                         <Form.Label>Date: </Form.Label>
-                            <DatePicker 
+                            <DatePicker
+                                className="text-center"
                                 selected={props.startDate}
                                 onChange={(date) => props.setStartDate(date)}
                                 locale="sv"
                                 showWeekNumbers
                                 dateFormat={"yyyy/MM/dd"}
                                 strictParsing
+                                todayButton="Today"
                             />
                         <Form.Label>Hours: </Form.Label>
                             <Form.Control 
