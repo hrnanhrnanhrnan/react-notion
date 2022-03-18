@@ -1,5 +1,4 @@
 import React from "react";
-import Select from "react-select";
 import { AdminComponent } from "../components/AdminComponent"
 import { useFetch } from "../customHooks/UseFetch";
 
@@ -8,6 +7,7 @@ export const AdminContainer = () => {
     const projectOptions = []
     const {data: users, isLoading: loadingUsers, error: usersError} = useFetch("/get_people")
     const {data: projects, isLoading: loadingProjects, error: projectsError} = useFetch("/get_database")
+    const {data: timereports, isLoading: loadingTimereports, error: timereportsError} = useFetch("/get_timereports")
 
     !loadingUsers && (() => {
         users.results.map((users) => userOptions.push({value: users.id, label: users.properties.Name.title[0].plain_text}))
@@ -17,9 +17,10 @@ export const AdminContainer = () => {
         projects.results.map((projects) => projectOptions.push({value: projects.id, label: projects.properties.Projectname.title[0].plain_text}))
     })()
 
-    if(!loadingProjects && !loadingUsers){
+    if(!loadingProjects && !loadingUsers && !loadingTimereports){
         console.log(users)
         console.log(projects)
+        console.log(timereports)
     }
 
     // useEffect(() => {
