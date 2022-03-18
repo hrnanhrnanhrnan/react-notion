@@ -9,6 +9,7 @@ export const TimeReportContainer = () => {
     const [inputs, setInputs] = useState({});
     const {data, isLoading: isLoadingData} = useFetch("/get_projects");
     const [loaded, setLoaded] = useState(true)
+    const [startDate, setStartDate] = useState(new Date())
     const options = []
     // //this gets the user who is logged in 
     const auth = useAuth()
@@ -35,9 +36,13 @@ export const TimeReportContainer = () => {
     // eventhandler to handle when the submit button is pressed in the form in the component
     // the eventhandler calls the postrequest method and passed the values from the input state as parameters to the url to the server
     const handleSubmit = async (event) => {
+      const formatedDate = ((date) => {
+        const [dateStr] = new Date(date).toISOString().split('T')
+        return dateStr
+      })(startDate)
       event.preventDefault();
       setLoaded(false)
-      const res = await postRequest(`/timereports/${inputs.date}/${auth.user.value}/${inputs.hours}/${inputs.project}/${inputs.note}`)
+      const res = await postRequest(`/timereports/${formatedDate}/${auth.user.value}/${inputs.hours}/${inputs.project}/${inputs.note}`)
       setLoaded(res.ok)
       if(loaded) {
         setInputs({})
@@ -46,6 +51,6 @@ export const TimeReportContainer = () => {
     
     // Mounts the timereport component and sends the data and methods from container to the component
     return (
-        <TimeReportComponent loaded={loaded} options={options} inputs={inputs} handleChange={handleChange} handleDropmenu={handleDropmenu} handleSubmit={handleSubmit}/>
+        <TimeReportComponent loaded={loaded} options={options} inputs={inputs} handleChange={handleChange} handleDropmenu={handleDropmenu} handleSubmit={handleSubmit} startDate={startDate} setStartDate={setStartDate}/>
     )
 }
