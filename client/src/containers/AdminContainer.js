@@ -5,8 +5,8 @@ import { useFetch } from "../customHooks/UseFetch";
 export const AdminContainer = () => {
     const userOptions = []
     const projectOptions = []
-    const {data: users, isLoading: loadingUsers, error: usersError} = useFetch("/get_people")
-    const {data: projects, isLoading: loadingProjects, error: projectsError} = useFetch("/get_database")
+    const {data: users, isLoading: loadingUsers, error: usersError} = useFetch("/get_members")
+    const {data: projects, isLoading: loadingProjects, error: projectsError} = useFetch("/get_projects")
     const {data: timereports, isLoading: loadingTimereports, error: timereportsError} = useFetch("/get_timereports")
 
     !loadingUsers && (() => {

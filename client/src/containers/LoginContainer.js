@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/AuthContext"
 import { LoginComponent } from "../components/LoginComponent";
 
 export function LoginContainer() {
-    const {data, isLoading, error} = useFetch("/get_people"); //Custom hook to get data from Notion through Express server
+    const {data, isLoading, error} = useFetch("/get_members"); //Custom hook to get data from Notion through Express server
     const [selectedUser, setSelectedUser] = useState(null) //State of selected user, default null
     const auth = useAuth() 
     const navigate = useNavigate();
@@ -19,6 +19,7 @@ export function LoginContainer() {
     //If it's done fetching from Notion, add users to dropdown menu
     !isLoading && (() => {
         data.results.map((user) => options.push({value: user.id, label: user.properties.Name.title[0].plain_text, adminAuthorized: isAdmin(user)}))
+        console.log(data.results)
     })()
 
     //Checks if Authorization is true, sets boolean to true or false

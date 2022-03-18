@@ -7,7 +7,7 @@ import { TimeReportComponent } from "../components/TimeReportComponent.js";
 export const TimeReportContainer = () => {
     // //response is just a state to let show a success or failure message when creating a timereport
     const [inputs, setInputs] = useState({});
-    const {data, isLoading: isLoadingData} = useFetch("/get_database");
+    const {data, isLoading: isLoadingData} = useFetch("/get_projects");
     const [loaded, setLoaded] = useState(true)
     const options = []
     // //this gets the user who is logged in 

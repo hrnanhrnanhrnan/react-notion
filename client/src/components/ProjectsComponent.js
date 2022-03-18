@@ -1,8 +1,8 @@
 import React from "react";
 import Select from "react-select"
 
-export const GetDataComponent = (props) => {
-    //Gets data from the parent GetDataContainer through props 
+export const ProjectsComponent = (props) => {
+    //Gets data from the parent ProjectsContainer through props 
     //and then uses that data to display it to the screen when it is mounted
 
     return (

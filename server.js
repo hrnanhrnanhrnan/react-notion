@@ -1,7 +1,6 @@
 require("dotenv").config()
 const express = require("express")
 const {Client} = require("@notionhq/client")
-const { parse } = require("dotenv")
 const app = express()
 const port = process.env.PORT || 5000
 
@@ -15,7 +14,7 @@ app.listen(port, () => console.log(`...bitcoin-mining initialized on port: ${por
 
 //GET routes
 //Server endpoint to get database sorted
-app.get("/get_database", async (req, res) => {
+app.get("/get_projects", async (req, res) => {
     const query = await notion.databases.query({
         database_id: process.env.NOTION_PROJECTS_DATABASE_ID
     })
@@ -25,20 +24,9 @@ app.get("/get_database", async (req, res) => {
 
 //Freddy wuz her
 
-// app.get("/get_users", async (req, res) => {
-//     const users = await notion.users.list()
-//     res.send(users)
-// })
-
 app.get("/get_members", async(req, res) => {
-    const qurey = await notion.databases.query({
-        member_id: process.env.NOTION_MEMBERS_DATABASE_ID
-    })
-})
-
-app.get("/get_people", async (req, res) => {
     const query = await notion.databases.query({
-        database_id: process.env.NOTION_PEOPLE_DATABASE_ID
+        database_id: process.env.NOTION_MEMBERS_DATABASE_ID
     })
 
     res.send(query)

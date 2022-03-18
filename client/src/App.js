@@ -1,7 +1,7 @@
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {Route, Routes} from "react-router-dom"
-import { GetDataContainer } from './containers/GetDataContainer';
+import { ProjectsContainer } from './containers/ProjectsContainer';
 import { NavbarContainer } from './containers/NavBarContainer';
 import { HomeContainer } from './containers/HomeContainer';
 import { TimeReportContainer } from './containers/TimeReportContainer';
@@ -16,7 +16,7 @@ export const App = () => {
     <NavbarContainer />
         <Routes>
           <Route path="home" element={<HomeContainer />}/>
-          <Route path="projects" element={<GetDataContainer />}/>
+          <Route path="projects" element={<ProjectsContainer />}/>
           <Route path="timereport" element={<TimeReportContainer />}/>
           <Route path="admin" element={<AdminAuth><AdminContainer /></AdminAuth>}/>
         </Routes>
