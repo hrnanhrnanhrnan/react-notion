@@ -15,7 +15,7 @@ export const LoginComponent = (props) => {
                 </>
             ) : (
                 <>
-                    <Select options={props.options} onChange={props.handleChange} id="LoginBtn" />
+                    <Select className="text-dark" options={props.options} onChange={props.handleChange} id="LoginBtn" />
                     <Button onClick={() => 
                     {props.routeChange(); 
                     props.onClickHandle();
