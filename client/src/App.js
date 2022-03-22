@@ -6,6 +6,7 @@ import { NavbarContainer } from './containers/NavBarContainer';
 import { HomeContainer } from './containers/HomeContainer';
 import { TimeReportContainer } from './containers/TimeReportContainer';
 import { AdminContainer } from './containers/AdminContainer';
+import { TestContainer } from './containers/TestContainer';
 import { AdminAuth } from './AdminAuth'
 
 
@@ -19,6 +20,7 @@ export const App = () => {
           <Route path="projects" element={<ProjectsContainer />}/>
           <Route path="timereport" element={<TimeReportContainer />}/>
           <Route path="admin" element={<AdminAuth><AdminContainer /></AdminAuth>}/>
+          <Route path="test" element={<AdminAuth><TestContainer /></AdminAuth>}/>
         </Routes>
         </>
   )

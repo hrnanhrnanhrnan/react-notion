@@ -20,7 +20,8 @@ export const TimeReportComponent = (props) => {
                     <Form.Group className="mb-5 text-white" controlId="formBasic" >
                         <Form.Label>Date: </Form.Label>
                             <DatePicker
-                                className="text-center"
+                                className="text-center w-100"
+                                id="datepickertest"
                                 selected={props.startDate}
                                 onChange={(date) => props.setStartDate(date)}
                                 locale="sv"
@@ -37,10 +38,11 @@ export const TimeReportComponent = (props) => {
                                 name="hours" 
                                 value={props.inputs.hours || ""} 
                                 onChange={props.handleChange}
+                                required
                             />
                         <Form.Label>Project: </Form.Label>
                         
-                        <Select options={props.options} onChange={props.handleDropmenu} className="text-dark"/>
+                        <Select options={props.options} onChange={props.handleDropmenu} required className="text-dark"/>
             
                         <Form.Label>Note: </Form.Label>
                             <Form.Control 
@@ -49,6 +51,8 @@ export const TimeReportComponent = (props) => {
                                 name="note" 
                                 value={props.inputs.note || ""} 
                                 onChange={props.handleChange}
+                                required
+                                maxLength={100}
                             />
                         <Button variant="primary" type="submit" className="submitButton">Submit</Button>
                     </Form.Group>
