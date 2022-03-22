@@ -61,7 +61,11 @@ export const ProjectsContainer = () => {
   }
  
   return (
-     <ProjectsComponent isLoading={isLoadingProjects} error={error} statusOptions={statusOptions} showProject={showProject} handleChange={handleChange}/>
+     <ProjectsComponent isLoading={isLoadingProjects} 
+     error={error} 
+     statusOptions={statusOptions} 
+     showProject={showProject} 
+     handleChange={handleChange}/>
   )
 }
 

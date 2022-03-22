@@ -19,7 +19,6 @@ export function LoginContainer() {
     //If it's done fetching from Notion, add users to dropdown menu
     !isLoading && (() => {
         data.results.map((user) => options.push({value: user.id, label: user.properties.Name.title[0].plain_text, adminAuthorized: isAdmin(user)}))
-        console.log(data.results)
     })()
 
     //Checks if Authorization is true, sets boolean to true or false
@@ -44,7 +43,11 @@ export function LoginContainer() {
 
     //Returns data to LoginComponent for display correctly
     return (
-        <LoginComponent isLoading={isLoading} error={error} options={options}
-         handleChange={handleChange} routeChange={routeChange} onClickHandle={onClickHandle} />
+        <LoginComponent isLoading={isLoading} 
+        error={error} 
+        options={options}
+        handleChange={handleChange} 
+        routeChange={routeChange} 
+        onClickHandle={onClickHandle} />
     )
 }

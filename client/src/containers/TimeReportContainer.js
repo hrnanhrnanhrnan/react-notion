@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext.js";
 import { useFetch } from "../customHooks/UseFetch";
 import { postRequest } from "../utilities/postRequest.js";
 import { TimeReportComponent } from "../components/TimeReportComponent.js";
+import Moment from "moment"
 
 export const TimeReportContainer = () => {
     // //response is just a state to let show a success or failure message when creating a timereport
@@ -14,6 +15,12 @@ export const TimeReportContainer = () => {
     // //this gets the user who is logged in 
     const auth = useAuth()
     
+    // Adds week number to timereports table
+    function getWeek(date) {
+      var weekNumber = (Moment(date).format("w") - 1)
+      return weekNumber
+    }
+
     // populates the projects dropdown select in the component when the data has been loaded
     !isLoadingData && (() => {
         data.results.map((project) => options.push({value: project.id, label: project.properties.Projectname.title[0].plain_text} )) 
@@ -41,8 +48,9 @@ export const TimeReportContainer = () => {
         return dateStr
       })(startDate)
       event.preventDefault();
+      const reportedWeek = getWeek(formatedDate)
       setLoaded(false)
-      const res = await postRequest(`/timereports/${formatedDate}/${auth.user.value}/${inputs.hours}/${inputs.project}/${inputs.note}`)
+      const res = await postRequest(`/timereports/${formatedDate}/${auth.user.value}/${inputs.hours}/${inputs.project}/${inputs.note}/${reportedWeek}`)
       setLoaded(res.ok)
       if(loaded) {
         setInputs({})
@@ -51,6 +59,11 @@ export const TimeReportContainer = () => {
     
     // Mounts the timereport component and sends the data and methods from container to the component
     return (
-        <TimeReportComponent loaded={loaded} options={options} inputs={inputs} handleChange={handleChange} handleDropmenu={handleDropmenu} handleSubmit={handleSubmit} startDate={startDate} setStartDate={setStartDate}/>
+        <TimeReportComponent loaded={loaded} options={options} inputs={inputs} 
+        handleChange={handleChange} 
+        handleDropmenu={handleDropmenu} 
+        handleSubmit={handleSubmit} 
+        startDate={startDate} setStartDate={setStartDate}
+        />
     )
 }
