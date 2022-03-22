@@ -46,11 +46,11 @@ app.get("/get_timereports", async (req, res) => {
 //with variables from the form that is being submitted
 //the values from the frontend can then be accessed through req.params and passed into the updateTimeReport method
 //the endpoint then returns success or failure message back to the frontend
-app.post("/timereports/:date/:personId/:hours/:projectId/:note", async (req, res) => {
+app.post("/timereports/:date/:personId/:hours/:projectId/:note/:weekNumber", async (req, res) => {
     let message = ""
     let ok = false
     try {
-        await updateTimereports(req.params.date, req.params.personId, req.params.hours, req.params.projectId, req.params.note)
+        await updateTimereports(req.params.date, req.params.personId, req.params.hours, req.params.projectId, req.params.note, req.params.weekNumber)
         return message = "Successfully mined some bitcoins!", ok = true
     }
     catch(error){
@@ -69,7 +69,7 @@ app.post("/timereports/:date/:personId/:hours/:projectId/:note", async (req, res
 
 
 //Method to update the timereport database through notion API call
-const updateTimereports = async (date, personId, hours, projectId, note) => {
+const updateTimereports = async (date, personId, hours, projectId, note, weekNumber) => {
 
     //sends the parameters from the method call to the api to create new database entry 
     await notion.pages.create({
@@ -89,6 +89,9 @@ const updateTimereports = async (date, personId, hours, projectId, note) => {
           },
           Hours: {
               number: parseInt(hours)
+          },
+          Week: {
+              number: parseInt(weekNumber)
           },
           Project: {
               relation: [
