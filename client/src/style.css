@@ -67,3 +67,12 @@ label {
   min-height: 2.4rem;
   font-weight: 400;
 }
+
+.content {
+  animation: drop 1s ease;
+  padding-top: 10px;
+}
+
+.Select {
+  z-index: 1;
+}
