@@ -38,21 +38,35 @@ export const AdminContainer = () => {
         }
    }
 
-    const handlePersonChange = (e) => {
-        setSelectedPerson(e.value)
-        selectedOptions(selectedProject, e.value)
+   //Maps the projects name when project and timereport id is the same
+   function addProjectName(projectId){
+       const projectNames = projects.results.filter((element) => element.id === projectId)
+       return projectNames[0].properties.Projectname.title[0].plain_text
     }
 
+    //Maps the persons name when person and timereports id is the same
+    function addPersonName(personId){
+       const personNames = users.results.filter((element) => element.id === personId)
+       return personNames[0].properties.Name.title[0].plain_text
+    }
+
+    //Gets the value of the selected project in dropdown and sets it in state
     const handleProjectChange = (e) => {
         setSelectedProject(e.value)
         selectedOptions(e.value, selectedPerson)
     }
     
+    //Gets the value of the selected person in dropdown and sets it in state
+    const handlePersonChange = (e) => {
+        setSelectedPerson(e.value)
+        selectedOptions(selectedProject, e.value)
+    }
+
     //For testing purposes
     if(!loadingProjects && !loadingUsers && !loadingTimereports){
         // console.log(users)
-        // console.log(projects)
-        // console.log(timereports)
+        console.log(projects)
+        console.log(timereports)
     }
 
     //LOGIK
@@ -66,6 +80,8 @@ export const AdminContainer = () => {
         handleProjectChange={handleProjectChange} 
         handlePersonChange={handlePersonChange}  
         timereport={timereport}
+        addProjectName={addProjectName}
+        addPersonName={addPersonName}
         />
     )
 }
