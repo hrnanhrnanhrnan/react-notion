@@ -27,14 +27,15 @@ export const TestContainer = () => {
     
 
    
-    console.log(showProject)
     return (
-        <div className="container-fluid bg-dark text-white text-center">
+        <div className="container-fluid bg-dark text-white">
             <Select options={options} onChange={handleDropmenu} className="text-dark"/>
+            
             {
                 showProject.map((project) => ( 
-                     <p>Name: {project.properties.Projectname.title[0].plain_text}</p>
-                     
+                    <ul>
+                     <li> Name: {project.properties.Projectname.title[0].plain_text} </li>
+                    </ul>
                 ))
                
             }
