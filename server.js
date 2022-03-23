@@ -61,8 +61,21 @@ app.post("/timereports/:date/:personId/:hours/:projectId/:note/:weekNumber", asy
     }
 })
 
-//PUT routes
-
+//PUT + PATCH routes
+app.patch("/timereports/:hours/:projectId/:UserId/:date", async (req, res) => {
+    let message = ""
+    let ok = false
+    try {
+        await updateHours(req.params.hours, req.params.projectId, req.params.UserId, req.params.date)
+        return message = "Successfully mined some Dogecoins!", ok = true
+    }
+    catch(error){
+        return message = error.message
+    }
+    finally {
+        res.send({ok, message}) 
+    }
+})
 
 
 //DELETE routes
@@ -109,6 +122,30 @@ const updateTimereports = async (date, personId, hours, projectId, note, weekNum
                   }
               ]
           }
+      }
+      })
+  }
+
+  const updateHours =  async (hours, projectId, userId, date) => {
+    await notion.pages.update({
+        parent: {database_id: process.env.NOTION_TIMEREPORT_DATABASE_ID},
+        page_id: projectId,
+        properties: {
+          Hours: {
+              number: parseInt(hours)
+          },
+          ["Last edited by"]: {
+            relation: [
+                {
+                    id: userId
+                }
+            ]
+        },
+            ["Last edited"]: {
+                date: {
+                    start: date
+            }
+        }
       }
       })
   }
