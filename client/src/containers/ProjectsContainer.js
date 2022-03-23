@@ -4,28 +4,21 @@ import {useState} from "react";
 import { useAuth } from "../contexts/AuthContext.js";
 
 export const ProjectsContainer = () => {
-  //Calling custom hooks to set state of ProjectsContainer
-  //ProjectsContainer takes care of all logic and then passes that logic to the GetDataComponent when it mounts
+  //Calling custom hooks to fetch projects and timereports
   const {data: projects, isLoading: isLoadingProjects, error} = useFetch("/get_projects")
   const {data: timereports, isLoading: isLoadingTimeReports} = useFetch("/get_timereports")
-  const [showProject, setshowProject] = useState([]);
-
-  //const {data: users, isLoading: isLoadingUsers} = useFetch("/get_members")
-  // const [status, setStatus] = useState()
-  // const [person, setPerson] = useState()
+  const [showProject, setShowProject] = useState([]);
+  const [status, setStatus] = useState()
+  const [person, setPerson] = useState()
+  //get the logged in user
   const auth = useAuth()
+  //populate the options for the select elements
   const statusOptions = [{value: "All", label:"All"}]
-
-  // const personOptions = [
-  //   {value: "All", label:"All"},
-  //   {value: auth.user.value, label: "Mine"}
-  // ]
-
+  const personOptions = [{value: "All", label:"All"},{value: auth.user.value, label: "Mine"}]
 
   //all the projects that the user has reported time to
   const usersProjects = []
 
-  
   !isLoadingProjects && (() => {
     //get unique statuses
     const uniqueStatus = [...new Set(projects.results.map(project => project.properties.Status.select.name)) ]
@@ -48,24 +41,47 @@ export const ProjectsContainer = () => {
     })()
   })()
 
-  const handleChange = (event) => {
-    setshowProject(projectsToShow(event.value))
+  const selectedOptions = (status, personId) => {
+    if((status === "All" || status === undefined) && (personId !== "All" && personId !== undefined)){
+        //when status is set to all or not selected at all, return all projects where the logged in user has reported time on
+        return usersProjects
+        
+    } else if((personId === "All" || personId === undefined) && (status !== "All" && status !== undefined)){
+        //when person is set to all or not selected at all, return all projects where the logged in user 
+        return projects.results.filter(project => project.properties.Status.select.name === status)
+        
+    } else if((status === "All" || status === undefined) && (personId === "All" || personId === undefined)){
+        //when both status and person is either set to all or not selected at all, return all projects
+        return projects.results
+    } else {
+      //when both person and status is choosen, return all projects where the user has reported time that matches the choosen status
+      return usersProjects.filter(projects => projects.properties.Status.select.name === status)        
+    }
+}
+
+//eventhandler that handles when status is changed in the select element 
+//and sets the status state and then updates the showproject state through the selectedoptions method
+  const handleStatusChange = (event) => {
+    setStatus(event.value)
+    setShowProject(selectedOptions(event.value, person))
   }
 
-  const projectsToShow = (status) => {
-    if (status === "All") {
-      return usersProjects
-    } 
-    
-    return usersProjects.filter(project => project.properties.Status.select.name === status )
+  //eventhandler that handles when person is changed in the select element 
+//and sets the person state and then updates the showproject state through the selectedoptions method
+  const handlePersonChange = (event) => {
+    setPerson(event.value)
+    setShowProject(selectedOptions(status, event.value))
   }
  
   return (
      <ProjectsComponent isLoading={isLoadingProjects} 
      error={error} 
-     statusOptions={statusOptions} 
+     statusOptions={statusOptions}
+      personOptions={personOptions}
      showProject={showProject} 
-     handleChange={handleChange}/>
+     handleStatusChange={handleStatusChange}
+       handlePersonChange={handlePersonChange}
+     />
   )
 }
 
