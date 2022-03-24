@@ -18,9 +18,9 @@ export const ProjectsComponent = (props) => {
                 ) : (
                     <div >
                     <h1 className="display-6">Select Project</h1>
-                    <h4 className="lead">Select status</h4>
+                    <h4 className="lead pt-4">Select status</h4>
                     <Select options={props.statusOptions} onChange={props.handleStatusChange} className="text-dark position-top  content" />
-                    <h4 className="lead">Select person</h4>
+                    <h4 className="lead pt-4">Select person</h4>
                     <Select options={props.personOptions} onChange={props.handlePersonChange} className="text-dark position-top content" />
                     <div className="w-100 content">
                         {
