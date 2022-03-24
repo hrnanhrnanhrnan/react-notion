@@ -32,6 +32,7 @@ export const AdminComponent = (props) => {
                                     <li key={element.id + 3}>Hours: {element.properties.Hours.number}</li>
                                     <li key={element.id + 4}>Weeks: {element.properties.Week.number}</li>
                                     <li key={element.id + 5}>Note: {element.properties.Note.title[0].plain_text}</li>
+                                    <li key={element.id + 6}>Worked Hours: {props.getHoursWorked(element.properties.Project.relation[0].id)}</li>
                                 </ul>
                                 </Accordion.Body>
                                 </Accordion.Item>

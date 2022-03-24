@@ -38,8 +38,6 @@ export const AdminContainer = () => {
         }
    }
 
-   //Testing after revert
-
    //Maps the projects name when project and timereport id is the same
    function addProjectName(projectId){
        const projectNames = projects.results.filter((element) => element.id === projectId)
@@ -50,6 +48,11 @@ export const AdminContainer = () => {
     function addPersonName(personId){
        const personNames = users.results.filter((element) => element.id === personId)
        return personNames[0].properties.Name.title[0].plain_text
+    }
+
+    function getHoursWorked(timereportId){
+        const workedHours = projects.results.filter((element) => element.id === timereportId)
+        return workedHours[0].properties["Worked hours"].rollup.number
     }
 
     //Gets the value of the selected project in dropdown and sets it in state
@@ -80,7 +83,8 @@ export const AdminContainer = () => {
         userOptions={userOptions} 
         error={timereportsError} 
         handleProjectChange={handleProjectChange} 
-        handlePersonChange={handlePersonChange}  
+        handlePersonChange={handlePersonChange}
+        getHoursWorked={getHoursWorked}  
         timereport={timereport}
         addProjectName={addProjectName}
         addPersonName={addPersonName}
