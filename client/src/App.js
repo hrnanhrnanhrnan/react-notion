@@ -8,13 +8,26 @@ import { TimeReportContainer } from './containers/TimeReportContainer';
 import { AdminContainer } from './containers/AdminContainer';
 import { TestContainer } from './containers/TestContainer';
 import { AdminAuth } from './AdminAuth'
+import { useFetch } from './customHooks/UseFetch';
 
 
 export const App = () => {
+  //fetches the page data from notion and sends in the logo icon emoji as a prop to the navbarcontainer
+  const {data: logoData, isLoading: loadingLogo, error} = useFetch("/get_page")
+  
   //Children of App, showing Navbar if logged in.
   return (
     <>
-    <NavbarContainer />
+    {
+      loadingLogo ? (
+        <div className='container-fluid'>
+          <div className="spinner-border text-muted">
+          </div>
+          <p>{error}</p>
+        </div>
+      ) : (
+        <>
+        <NavbarContainer logo={logoData.icon.emoji} />
         <Routes>
           <Route path="home" element={<HomeContainer />}/>
           <Route path="projects" element={<ProjectsContainer />}/>
@@ -23,5 +36,8 @@ export const App = () => {
           <Route path="test" element={<AdminAuth><TestContainer /></AdminAuth>}/>
         </Routes>
         </>
+      )
+    }
+    </>
   )
 }

@@ -9,7 +9,7 @@ export const NavbarComponent = (props) => {
     return (
         <Navbar display="flex"  bg="dark" variant="dark" expand="sm" className="pb-3 sticky-top">
         <Container>
-          <Navbar.Brand>Lion-org : {props.user.label}</Navbar.Brand>
+          <Navbar.Brand>{props.logo} : {props.user.label}</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">

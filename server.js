@@ -40,6 +40,14 @@ app.get("/get_timereports", async (req, res) => {
   res.send(query)
 })
 
+app.get("/get_page", async (req, res) => {
+    const query = await notion.pages.retrieve({
+        page_id: process.env.NOTION_PAGE_ID
+    })
+    res.send(query)
+})
+
+
 //POST routes
 //the endpoint which is called from the frontend and 
 //everything that follow "/:" is parameters that we populate from the frontend 
