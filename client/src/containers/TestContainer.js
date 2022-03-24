@@ -6,6 +6,11 @@ import { useFetch } from "../customHooks/UseFetch";
 import { Button, Form } from "react-bootstrap";
 import { putRequest } from "../utilities/putRequest.js";
 
+import DatePicker, { registerLocale } from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import sv from "date-fns/locale/sv";
+registerLocale("sv", sv);
+
 export const TestContainer = () => {
 
     const [inputs, setInputs] = useState({});
@@ -35,13 +40,31 @@ export const TestContainer = () => {
         event.preventDefault();
         const [dateStr] = new Date().toISOString().split('T')
       setLoaded(false)
-      const res = await putRequest(`/timereports/${inputs.hours}/${showProject[0].id}/${auth.user.value}/${dateStr}`)
+      const res = await putRequest(`/updateProjectHours/${inputs.hours}/${showProject[0].id}/${auth.user.value}/${dateStr}`)
       setLoaded(res.ok)
       if(loaded) {
         setInputs({})
       }
     }
-    console.log( new Date().toISOString().split('T'))
+    
+    // ---------------------Datepicker-----------------------------------------------
+    const [endDate, setEndDate] = useState(new Date())
+
+    const handleSubmitDate = async (event) => {
+        const formatedDate = ((date) => {
+            const [dateStr] = new Date(date).toISOString().split('T')
+            return dateStr
+        })(endDate)
+        event.preventDefault();
+        setLoaded(false)
+        const res = await putRequest(`updateProjectDate/${showProject[0].properties.Timespan.date.start}/${formatedDate}/${showProject[0].id}/${auth.user.value}/${new Date().toLocaleString("sv")}`)
+        setLoaded(res.ok)
+        if(loaded) {
+            setInputs({})
+        }
+
+        console.log(res.message)
+    }
 
     return (
         <div className="container-fluid bg-dark text-white">
@@ -70,6 +93,23 @@ export const TestContainer = () => {
                             required
                         />
                     <Button variant="primary" type="submit" className="submitButton">Submit</Button>
+                </Form.Group>
+            </Form>
+            <Form onSubmit={handleSubmitDate} id="test" >
+                <Form.Group className="mb-5 text-white" controlId="dateTest" >
+                    <Form.Label>Date: </Form.Label>
+                        <DatePicker 
+                            className="text-center w-100"
+                            id="datepickertest"
+                            selected={endDate}
+                            onChange={(date) => setEndDate(date)}
+                            locale="sv"
+                            showWeekNumbers
+                            dateFormat={"yyyy/MM/dd"}
+                            strictParsing
+                            todayButton="Today"
+                        />
+                    <Button variant="primary" type="submit" className="submitButton">Change Date</Button>
                 </Form.Group>
             </Form>
         </div>

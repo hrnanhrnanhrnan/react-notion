@@ -70,7 +70,7 @@ app.post("/timereports/:date/:personId/:hours/:projectId/:note/:weekNumber", asy
 })
 
 //PUT + PATCH routes
-app.patch("/timereports/:hours/:projectId/:UserId/:date", async (req, res) => {
+app.patch("/updateProjectHours/:hours/:projectId/:UserId/:date", async (req, res) => {
     let message = ""
     let ok = false
     try {
@@ -84,6 +84,22 @@ app.patch("/timereports/:hours/:projectId/:UserId/:date", async (req, res) => {
         res.send({ok, message}) 
     }
 })
+
+app.patch("/updateProjectDate/:startDate/:endDate/:projectId/:UserId/:date", async (req, res) => {
+    let message = ""
+    let ok = false
+    try {
+        await updateDate(req.params.startDate, req.params.endDate, req.params.projectId, req.params.UserId, req.params.date)
+        return message = "Successfully downloaded Pentagon Files!!", ok = true
+    }
+    catch(error){
+        return message = error.message
+    }
+    finally {
+        res.send({ok, message}) 
+    }
+})
+
 
 
 //DELETE routes
@@ -156,4 +172,31 @@ const updateTimereports = async (date, personId, hours, projectId, note, weekNum
         }
       }
       })
+  }
+
+  const updateDate = async (startDate, endDate, projectId, userId, date) => {
+        await notion.pages.update({
+            parent: {database_id: process.env.NOTION_TIMEREPORT_DATABASE_ID},
+            page_id: projectId,
+            properties: {
+                Timespan: {
+                    date: {
+                        end: endDate,
+                        start: startDate
+                    }
+                },
+                ["Last edited by"]: {
+                    relation:[
+                        {
+                            id:userId
+                        }
+                    ]
+                },
+                ["Last edited"]: {
+                    date: {
+                        start: date
+                    }
+                }
+            }
+        })
   }
