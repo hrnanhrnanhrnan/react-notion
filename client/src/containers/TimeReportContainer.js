@@ -8,7 +8,7 @@ import Moment from "moment"
 export const TimeReportContainer = () => {
     // //response is just a state to let show a success or failure message when creating a timereport
     const [inputs, setInputs] = useState({});
-    const {data, isLoading: isLoadingData} = useFetch("/get_projects");
+    const {data, isLoading: isLoadingData, error} = useFetch("/get_projects");
     const [loaded, setLoaded] = useState(true)
     const [startDate, setStartDate] = useState(new Date())
     const options = []
@@ -56,14 +56,31 @@ export const TimeReportContainer = () => {
         setInputs({})
       }
     }
+
+    //If all inputs is truthy then returns false which will set the submit button in the component to false, thus enables the button
+    const requiredFieldsNotFilledOut = () => {
+      if(inputs.hours && inputs.project && inputs.note) {
+        return false
+      }
+      else{
+        return true
+      }
+    }
     
     // Mounts the timereport component and sends the data and methods from container to the component
     return (
-        <TimeReportComponent loaded={loaded} options={options} inputs={inputs} 
+        <TimeReportComponent 
+        loaded={loaded}
+        error={error}
+        isLoadingData={isLoadingData} 
+        options={options} 
+        inputs={inputs} 
         handleChange={handleChange} 
         handleDropmenu={handleDropmenu} 
         handleSubmit={handleSubmit} 
-        startDate={startDate} setStartDate={setStartDate}
+        startDate={startDate} 
+        setStartDate={setStartDate}
+        requiredFieldsNotFilledOut={requiredFieldsNotFilledOut}
         />
     )
 }

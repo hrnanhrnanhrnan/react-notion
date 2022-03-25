@@ -3,40 +3,29 @@ import { AdminComponent } from "../components/AdminComponent"
 import { useFetch } from "../customHooks/UseFetch";
 
 export const AdminContainer = () => {
-    const userOptions = [{value: "All", label: "All"}]
-    const projectOptions = [{value: "All", label: "All"}]
+    const userOptions = [{value: undefined, label: "All"}]
+    const projectOptions = [{value: undefined, label: "All"}]
+    const weekOptions = [{value: undefined, label: "All"}]
     const [selectedProject, setSelectedProject] = useState()
     const [selectedPerson, setSelectedPerson] = useState()
+    const [selectedWeek, setSelectedWeek] = useState()
     const [timereport, setTimereport] = useState([])
     const {data: users, isLoading: loadingUsers} = useFetch("/get_members")
     const {data: projects, isLoading: loadingProjects} = useFetch("/get_projects")
     const {data: timereports, isLoading: loadingTimereports, error: timereportsError} = useFetch("/get_timereports")
+    let loaded = false
 
-    //Adds user to the dropdown menu
-    !loadingUsers && (() => {
-        users.results.map((users) => userOptions.push({value: users.id, label: users.properties.Name.title[0].plain_text}))
-    })()
-    
-    //Adds projects to the dropdown menu
-    !loadingProjects && (() => {
-        projects.results.map((projects) => projectOptions.push({value: projects.id, label: projects.properties.Projectname.title[0].plain_text}))
-    })()
-
-    // Handling options from admin-page, depending on dropdown menu selected item
-    const selectedOptions = (projectId, personId) => {
-        if((projectId === "All" || projectId === undefined) && personId !== "All"){
-            //Filter on person
-            setTimereport(timereports.results.filter((element) => element.properties.Person.relation[0].id === personId))
-        } else if((personId === "All" || personId === undefined) && projectId !== "All"){
-            //Filter on project
-            setTimereport(timereports.results.filter((element) => element.properties.Project.relation[0].id === projectId))
-        } else if(projectId === "All" && personId === "All"){
-            //Filter on all projekts and all users
-            setTimereport(timereports.results)
-        } else {
-            setTimereport(timereports.results.filter((element) => element.properties.Person.relation[0].id === personId && element.properties.Project.relation[0].id === projectId))
-        }
-   }
+    //method to filter the timereports depending on the choosen states of person, project and week
+    const filterAfterSelectedOptions = (projectId, personId, week) => {
+        setTimereport(timereports.results.filter((element) => 
+            //if personId is truthy, run filter and get all timereports made by the choosen person, else filter without a personId filter
+            (personId ? element.properties.Person.relation[0].id === personId : element.properties.Person.relation[0].id !== personId) &&
+            //if projectid is truthy, run filter and get all timereports to the choosen project, else filter without a project filter
+            (projectId ? element.properties.Project.relation[0].id === projectId : element.properties.Project.relation[0].id !== projectId) &&
+            ////if Week is truthy, run filter and get all timereports made on the choosen week, else filter without a week filter
+            (week ? element.properties.Week.number === week : element.properties.Week.number !== week)
+        ))
+    }
 
    //Maps the projects name when project and timereport id is the same
    function addProjectName(projectId){
@@ -55,37 +44,55 @@ export const AdminContainer = () => {
         return workedHours[0].properties["Worked hours"].rollup.number
     }
 
-    //Gets the value of the selected project in dropdown and sets it in state
+    //Eventhandler that gets the value of the selected project in dropdown and sets it as state
     const handleProjectChange = (e) => {
         setSelectedProject(e.value)
-        selectedOptions(e.value, selectedPerson)
+        filterAfterSelectedOptions(e.value, selectedPerson, selectedWeek)
     }
     
-    //Gets the value of the selected person in dropdown and sets it in state
+    //Eventhandler that gets the value of the selected person in dropdown and sets it as state
     const handlePersonChange = (e) => {
         setSelectedPerson(e.value)
-        selectedOptions(selectedProject, e.value)
+        filterAfterSelectedOptions(selectedProject, e.value, selectedWeek)
     }
 
-    //For testing purposes
+    //Eventhandler that gets the value of the selected week in the dropdown and sets it as state
+    const handleWeekChange = (e) => {
+        setSelectedWeek(e.value)
+        filterAfterSelectedOptions(selectedProject, selectedPerson, e.value)
+    }
+
+    //waits till all data is loaded and then populates the options arrays
     if(!loadingProjects && !loadingUsers && !loadingTimereports){
-        // console.log(users)
-        console.log(projects)
-        console.log(timereports)
+        //Adds user to the dropdown menu
+        users.results.map((users) => userOptions.push({value: users.id, label: users.properties.Name.title[0].plain_text}))
+
+        //Adds projects to the dropdown menu
+        projects.results.map((projects) => projectOptions.push({value: projects.id, label: projects.properties.Projectname.title[0].plain_text}))
+        
+        //Adds unique weeks to the dropdown menu
+        const unique = [...new Set(timereports.results.map(row => row.properties.Week.number))]
+        for(let i = 0; i < unique.length; i++){
+            weekOptions.push({value: unique[i], label: unique[i]})
+        }
+        
+        //when all dropdown options has been populated loaded is set to true and passed as prop to the component
+        loaded = true
     }
 
     //LOGIK
     return (
-        <AdminComponent isLoadingUsers={loadingUsers} 
-        isLoadingProjects={loadingProjects} 
-        isLoadingTimereports={loadingTimereports} 
+        <AdminComponent 
+        loaded={loaded} 
         projectOptions={projectOptions} 
         userOptions={userOptions} 
-        error={timereportsError} 
+        weekOptions={weekOptions}
+        error={timereportsError}
+        timereport={timereport} 
         handleProjectChange={handleProjectChange} 
-        handlePersonChange={handlePersonChange}
-        getHoursWorked={getHoursWorked}  
-        timereport={timereport}
+        handlePersonChange={handlePersonChange}  
+        handleWeekChange={handleWeekChange}
+        getHoursWorked={getHoursWorked}
         addProjectName={addProjectName}
         addPersonName={addPersonName}
         />

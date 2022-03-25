@@ -76,3 +76,7 @@ label {
 .Select {
   z-index: 1;
 }
+
+.css-26l3qy-menu {
+  z-index: 10 !important;
+}
