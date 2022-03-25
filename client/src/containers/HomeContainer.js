@@ -164,7 +164,7 @@ export const HomeContainer = () => {
                                     <tr>
                                         <td>{addProjectName(row.properties.Project.relation[0].id)}</td>
                                         <td>{addPersonName(row.properties.Person.relation[0].id)}</td>
-                                        <td>{startDate.toLocaleDateString("sv")}</td>
+                                        <td>{row.properties.Date.date.start}</td>
                                         <td>{row.properties.Week.number}</td>
                                         <td>{row.properties.Hours.number}</td>
                                     </tr>
