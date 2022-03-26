@@ -66,53 +66,55 @@ export const TestContainer = () => {
         console.log(res.message)
     }
 
+    console.log(inputs.hours)
     return (
-        <div className="container-fluid bg-dark text-white">
-            <Select options={options} onChange={handleDropmenu} className="text-dark"/>
-            
-            {
-                showProject.map((project) => ( 
-                    <ul key={project.id + 1}>
-                    <li key={project.id + 2}> Name: {project.properties.Projectname.title[0].plain_text} </li>
-                    <li key={project.id + 3}> Hours: {project.properties.Hours.number} </li>
-                    <li key={project.id + 4}> Timespan: {`${project.properties.Timespan.date?.start} - ${project.properties.Timespan?.date?.end}`} </li>
-                    </ul>
-                ))
-            
-            }
-            <Form onSubmit={handleSubmit} id="test">
-                <Form.Group className="mb-5 text-white" controlId="formTest" >
-                    <Form.Label>Hours: </Form.Label>
-                        <Form.Control 
-                            className="text-center"
-                            placeholder="0"
-                            type="number" 
-                            name="hours" 
-                            value={inputs.hours || ""} 
-                            onChange={handleChange}
-                            required
-                        />
-                    <Button variant="primary" type="submit" className="submitButton">Submit</Button>
-                </Form.Group>
-            </Form>
-            <Form onSubmit={handleSubmitDate} id="test" >
-                <Form.Group className="mb-5 text-white" controlId="dateTest" >
-                    <Form.Label>Date: </Form.Label>
-                        <DatePicker 
-                            className="text-center w-100"
-                            id="datepickertest"
-                            selected={endDate}
-                            onChange={(date) => setEndDate(date)}
-                            locale="sv"
-                            showWeekNumbers
-                            dateFormat={"yyyy/MM/dd"}
-                            strictParsing
-                            todayButton="Today"
-                        />
-                    <Button variant="primary" type="submit" className="submitButton">Change Date</Button>
-                </Form.Group>
-            </Form>
+        <div className="container-fluid-test bg-dark text-white" >
+            <div className="container-fluid-test1 bg-dark text-white">
+                <Select options={options} onChange={handleDropmenu} className="text-dark position-top text-center" id="test"/>
+                {
+                    showProject.map((project) => ( 
+                        <ul key={project.id + 1}>
+                        <li key={project.id + 2}> Name: {project.properties.Projectname.title[0].plain_text} </li>
+                        <li key={project.id + 3}> Hours: {project.properties.Hours.number} </li>
+                        <li key={project.id + 4}> Timespan: {`${project.properties.Timespan.date?.start} - ${project.properties.Timespan?.date?.end}`} </li>
+                        </ul>
+                    ))
+                }
+            </div>
+            <div className="container-fluid-test2 bg-dark text-white">
+                <Form onSubmit={handleSubmit} id="test">
+                    <Form.Group className="mb-5 text-white" controlId="hourTest" >
+                        <Form.Label>Hours: </Form.Label>
+                            <Form.Control 
+                                className="text-center"
+                                placeholder="0"
+                                type="number" 
+                                name="hours" 
+                                value={inputs.hours || "" } 
+                                onChange={handleChange}
+                                required
+                            />
+                        <Button variant="primary" type="submit" className="submitButton">Change Hours</Button>
+                    </Form.Group>
+                </Form>
+                <Form onSubmit={handleSubmitDate} id="test" >
+                    <Form.Group className="mb-5 text-white" controlId="dateTest" >
+                        <Form.Label>Date: </Form.Label>
+                            <DatePicker 
+                                className="text-center w-100"
+                                id="datepickertest"
+                                selected={endDate}
+                                onChange={(date) => setEndDate(date)}
+                                locale="sv"
+                                showWeekNumbers
+                                dateFormat={"yyyy/MM/dd"}
+                                strictParsing
+                                todayButton="Today"
+                            />
+                        <Button variant="primary" type="submit" className="submitButton">Change Date</Button>
+                    </Form.Group>
+                </Form>
+            </div>
         </div>
-
     )
 }

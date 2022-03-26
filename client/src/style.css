@@ -54,8 +54,6 @@ html {
 
 label {
   margin: 5px;
-  /* display: grid;
-  justify-content: center; */
 }
 
 .submitButton {
@@ -75,4 +73,32 @@ label {
 
 .Select {
   z-index: 1;
+}
+
+.container-fluid-test {
+  display: flex;
+  min-height: 80vh;
+  gap: 0.5rem;
+  animation: drop 1s ease;
+  align-items: stretch;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container-fluid-test1 {
+  display: flex;
+  gap: 0.5rem;
+  animation: drop 1s ease;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container-fluid-test2 {
+  display: flex;
+  gap: 0.5rem;
+  animation: drop 1s ease;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
 }
