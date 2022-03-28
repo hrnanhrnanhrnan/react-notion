@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useFetch } from "../customHooks/UseFetch";
 import Select from "react-select"
 import {Table, Dropdown} from "react-bootstrap"
@@ -18,8 +18,8 @@ export const HomeContainer = () => {
     const {data: projects, isLoading: loadingProjects} = useFetch("/get_projects")
     const {data: timereports, isLoading: loadingTimereports, error: timereportsError} = useFetch("/get_timereports")
     let loaded = false
-    const [datePickerStatus, setDatePickerStatus] = useState(true)
-    const [selectWeekStatus, setSelectWeekStatus] = useState(true)
+    const [datePickerStatus, setDatePickerStatus] = useState(false)
+    const [selectWeekStatus, setSelectWeekStatus] = useState(false)
 
     const filterAfterDate = (date) => {
         !loadingTimereports &&  setTimereport(timereports.results?.filter(row => date ? row.properties.Date.date.start === date : row.properties.Date.date.start !== date))
@@ -121,33 +121,42 @@ export const HomeContainer = () => {
 
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={(() => {
-                                            setDatePickerStatus(false)
-                                            setSelectWeekStatus(true)
-                                        })}>Date</Dropdown.Item>
-                                        <Dropdown.Item onClick={(() => {
                                             setDatePickerStatus(true)
                                             setSelectWeekStatus(false)
+                                        })}>Date</Dropdown.Item>
+                                        <Dropdown.Item onClick={(() => {
+                                            setDatePickerStatus(false)
+                                            setSelectWeekStatus(true)
                                         })} >Week</Dropdown.Item>
                                     </Dropdown.Menu>
                                     </Dropdown>
-
-                                <h4 className="pt-3 text-center">Select Date</h4>
-                                <DatePicker disabled={datePickerStatus}
-                                className="text-center w-100"
-                                id="datepickertest"
-                                selected={startDate}
-                                onChange={(date) => {
-                                    setStartDate(date)
-                                    filterAfterDate(date.toLocaleDateString("sv"))
-                                    }}
-                                locale="sv"
-                                showWeekNumbers
-                                dateFormat={"yyyy/MM/dd"}
-                                strictParsing
-                                todayButton="Today"
-                            />
-                            <h4 className="pt-3 text-center">Select Week</h4>
-                                <Select isDisabled={selectWeekStatus} options={weekOptions} onChange={handleWeekChange} className="text-dark text-center content"/>
+                                {
+                                    datePickerStatus ? 
+                                    (
+                                        <div>
+                                        <h4 className="pt-3 text-center">Select Date</h4>
+                                        <DatePicker
+                                        className="text-center w-100"
+                                        id="datepickertest"
+                                        selected={startDate}
+                                        onChange={(date) => {
+                                            setStartDate(date)
+                                            filterAfterDate(date.toLocaleDateString("sv"))
+                                            }}
+                                        locale="sv"
+                                        showWeekNumbers
+                                        dateFormat={"yyyy/MM/dd"}
+                                        strictParsing
+                                        todayButton="Today"
+                                        />
+                                        </div>
+                                    ) : selectWeekStatus ? (
+                                        <div>
+                                        <h4 className="pt-3 text-center">Select Week</h4>
+                                        <Select options={weekOptions} onChange={handleWeekChange} className="text-dark text-center content"/>
+                                        </div>
+                                    ) : null
+                                }
                                 <Table responsive variant="dark" striped bordered hover>
                                 <thead>
                                     <tr>
