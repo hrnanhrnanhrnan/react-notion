@@ -54,7 +54,7 @@ export const TimeReportComponent = (props) => {
                                 required
                                 maxLength={100}
                             />
-                        <Button variant="primary" type="submit" className="submitButton">Submit</Button>
+                        <Button disabled={props.requiredFieldsNotFilledOut()} variant="primary" type="submit" className="submitButton">Submit</Button>
                     </Form.Group>
                 </Form>
             )
