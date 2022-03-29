@@ -1,6 +1,10 @@
 import React from "react";
 import Select from "react-select";
-import { Accordion } from "react-bootstrap";
+import {Table, Dropdown} from "react-bootstrap"
+import DatePicker, { registerLocale } from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import sv from "date-fns/locale/sv";
+registerLocale("sv", sv);
 
 export const AdminComponent = (props) => {
     //SHOW ME WHAT YOU GOT!
@@ -14,34 +18,97 @@ export const AdminComponent = (props) => {
                         <p>{props.error}</p>
                     </>
                 ) : (
-                    <div>
-                    <h4 className="pt-3">Select Project</h4> 
-                    <Select onChange={props.handleProjectChange} options={props.projectOptions} className="text-dark content"/>
-                    <h4 className="pt-3">Select Person</h4> 
-                    <Select onChange={props.handlePersonChange} options={props.userOptions} className="text-dark content"/>
-                    <h4 className="pt-3">Select Week</h4> 
-                    <Select onChange={props.handleWeekChange} options={props.weekOptions} className="text-dark content"/>
-                    <div className="w-100 content">
-                        {
-                            props.timereport.map((element) => (
-                                <Accordion key={element.id} className="text-dark content">
-                                <Accordion.Item key={element.id + 1} eventKey="0" className="w-100">
-                                <Accordion.Header key={element.id + 2}>{`${element.properties["Date"].date.start} => ${props.addProjectName(element.properties.Project.relation[0].id)}`}</Accordion.Header>
-                                <Accordion.Body key={element.id + 3}>
-                                <ul key={element.id + 4}>
-                                    <li key={element.id + 5}>Create by: {props.addPersonName(element.properties.Person.relation[0].id)}</li>
-                                    <li key={element.id + 6}>Hours: {element.properties.Hours.number}</li>
-                                    <li key={element.id + 7}>Weeks: {element.properties.Week.number}</li>
-                                    <li key={element.id + 8}>Note: {element.properties.Note.title[0].plain_text}</li>
-                                    <li key={element.id + 9}>Worked Hours: {props.getHoursWorked(element.properties.Project.relation[0].id)}</li>
-                                </ul>
-                                </Accordion.Body>
-                                </Accordion.Item>
-                                </Accordion>
-                            ))
-                        }
-                        </div>
+                    <div className="container">
+                                <h4>Projektledare</h4>
+                                <h4 className="pt-3 text-center">Select Project</h4> 
+                                <Select options={props.projectOptions} onChange={props.handleProjectChange} className="text-dark text-center content"/>
+                                <h4 className="pt-3 text-center">Select Week</h4>
+                                <Select options={props.weekOptions} onChange={props.handleWeekChange} className="text-dark text-center content"/>
+                                <Table responsive variant="dark" striped bordered hover>
+                                <thead>
+                                    <tr>
+                                    <th>Project</th>
+                                    <th>Hours</th>
+                                    <th>Date</th>
+                                    <th>Hours left</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                </Table>
+
+
+                                <h4>Chef</h4>
+                                <Dropdown>
+                                    <Dropdown.Toggle id="dropdown-basic">
+                                        Choose Date or week
+                                    </Dropdown.Toggle>
+
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item onClick={(() => {
+                                            props.setDateAndWeek(true, false)
+                                        })}>Date</Dropdown.Item>
+                                        <Dropdown.Item onClick={(() => {
+                                            props.setDateAndWeek(false, true)
+                                        })} >Week</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                    </Dropdown>
+                                {
+                                    props.datePickerStatus ? 
+                                    (
+                                        <div>
+                                        <h4 className="pt-3 text-center">Select Date</h4>
+                                        <DatePicker
+                                        className="text-center w-100"
+                                        id="datepickertest"
+                                        selected={props.startDate}
+                                        onChange={(date) => {
+                                            props.setStartDate(date)
+                                            props.filterAfterDate(date.toLocaleDateString("sv"))
+                                            }}
+                                        locale="sv"
+                                        showWeekNumbers
+                                        dateFormat={"yyyy/MM/dd"}
+                                        strictParsing
+                                        todayButton="Today"
+                                        />
+                                        </div>
+                                    ) : props.selectWeekStatus ? (
+                                        <div>
+                                        <h4 className="pt-3 text-center">Select Week</h4>
+                                        <Select options={props.weekOptions} onChange={props.handleWeekChange} className="text-dark text-center content"/>
+                                        </div>
+                                    ) : null
+                                }
+                                <Table responsive variant="dark" striped bordered hover>
+                                <thead>
+                                    <tr>
+                                    <th>Project</th>
+                                    <th>Person</th>
+                                    <th>Date</th>
+                                    <th>Week</th>
+                                    <th>Hours</th>
+                                    </tr>
+                                </thead>
+                                {
+                                    props.timereport?.map(row => (
+                                    <tbody>
+                                    <tr>
+                                        <td>{props.addProjectName(row.properties.Project.relation[0].id)}</td>
+                                        <td>{props.addPersonName(row.properties.Person.relation[0].id)}</td>
+                                        <td>{row.properties.Date.date.start}</td>
+                                        <td>{row.properties.Week.number}</td>
+                                        <td>{row.properties.Hours.number}</td>
+                                    </tr>
+                                    </tbody>
+                                    ))
+                                }
+                                <tfoot>Total hours reported: {props.timereport && props.getTotalHoursWorked(props.timereport)}</tfoot>
+                                </Table>
+
                     </div>
+
+                    
                 )
             }
         </div>
