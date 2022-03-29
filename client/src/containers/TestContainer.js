@@ -49,6 +49,8 @@ export const TestContainer = () => {
     
     // ---------------------Datepicker-----------------------------------------------
     const [endDate, setEndDate] = useState(new Date())
+    
+    //const [time, setTime] = useState(0)
 
     const handleSubmitDate = async (event) => {
         const formatedDate = ((date) => {
@@ -62,11 +64,9 @@ export const TestContainer = () => {
         if(loaded) {
             setInputs({})
         }
-
         console.log(res.message)
     }
 
-    console.log(inputs.hours)
     return (
         <div className="container-fluid-test bg-dark text-white" >
             <div className="container-fluid-test1 bg-dark text-white">
@@ -76,9 +76,17 @@ export const TestContainer = () => {
                         <ul key={project.id + 1}>
                         <li key={project.id + 2}> Name: {project.properties.Projectname.title[0].plain_text} </li>
                         <li key={project.id + 3}> Hours: {project.properties.Hours.number} </li>
-                        <li key={project.id + 4}> Timespan: {`${project.properties.Timespan.date?.start} - ${project.properties.Timespan?.date?.end}`} </li>
-                        </ul>
-                    ))
+                        <li key={project.id + 4}> Timespan: {
+                            (function () {                               
+                                if (new Date(project.properties.Timespan?.date?.end) < new Date()) {
+                                    return <strong className="text-danger">{`${project.properties.Timespan.date?.start} - ${project.properties.Timespan?.date?.end}`}<br />Project has passed its end date.</strong>;
+                                } else {
+                                    return <>{`${project.properties.Timespan.date?.start} - ${project.properties.Timespan?.date?.end}`}</>;
+                                }
+                                })()                           
+                            } </li>
+                        </ul>                                             
+                    ))                   
                 }
             </div>
             <div className="container-fluid-test2 bg-dark text-white">
@@ -107,7 +115,7 @@ export const TestContainer = () => {
                                 onChange={(date) => setEndDate(date)}
                                 locale="sv"
                                 showWeekNumbers
-                                dateFormat={"yyyy/MM/dd"}
+                                dateFormat={"yyyy-MM-dd"}
                                 strictParsing
                                 todayButton="Today"
                             />
