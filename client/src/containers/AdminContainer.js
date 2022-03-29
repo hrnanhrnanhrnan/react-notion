@@ -1,41 +1,44 @@
 import React, { useState } from "react";
 import { useFetch } from "../customHooks/UseFetch";
-import { registerLocale } from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-import sv from "date-fns/locale/sv";
 import { AdminComponent } from "../components/AdminComponent.js"
-registerLocale("sv", sv);
+import {useAuth} from "../contexts/AuthContext"
 
 export const AdminContainer = () => {
     const projectOptions = [{value: undefined, label: "All"}]
     const weekOptions = [{value: undefined, label: "All"}]
     const [selectedProject, setSelectedProject] = useState()
     const [selectedWeek, setSelectedWeek] = useState()
-    const [startDate, setStartDate] = useState(new Date())
-    const [timereport, setTimereport] = useState([])
-    const {data: users, isLoading: loadingUsers} = useFetch("/get_members")
+    const [project, setProject] = useState([])
     const {data: projects, isLoading: loadingProjects} = useFetch("/get_projects")
     const {data: timereports, isLoading: loadingTimereports, error: timereportsError} = useFetch("/get_timereports")
+    const {data: users} = useFetch("/get_members")
     let loaded = false
-    const [datePickerStatus, setDatePickerStatus] = useState(false)
-    const [selectWeekStatus, setSelectWeekStatus] = useState(false)
+    const auth = useAuth()
 
-    const filterAfterDate = (date) => {
-        !loadingTimereports &&  setTimereport(timereports.results?.filter(row => date ? row.properties.Date.date.start === date : row.properties.Date.date.start !== date))
+    const getProjectHoursLeft = (projectId) => {
+        return projects?.results?.filter(row => row.id === projectId)?.map(project => project.properties["Hours left"])[0]?.formula.number
+    }
+
+    const filterAfterProjectAndWeek = (projectId) => {
+        setProject(projects.results.filter(row => projectId ? row.id === projectId : row.id !== projectId))
+    }
+
+    const getReportedTime = (projectId) => {
+        return getTotalHoursWorked(timereports?.results.filter(row => (row.properties.Project.relation[0].id === projectId) &&
+        (selectedWeek ? row.properties.Week.number === selectedWeek : row.properties.Week.number !== selectedWeek)))
     }
     
-
    //Maps the projects name when project and timereport id is the same
    function addProjectName(projectId){
-       const projectNames = projects.results.filter((element) => element.id === projectId)
-       return projectNames[0].properties.Projectname.title[0].plain_text
+       const projectNames = projects?.results.filter((element) => element.id === projectId)
+       return projectNames?.[0].properties.Projectname.title[0].plain_text
     }
 
     //Maps the persons name when person and timereports id is the same
     function addPersonName(personId){
-       const personNames = users.results.filter((element) => element.id === personId)
-       return personNames[0].properties.Name.title[0].plain_text
-    }
+        const personNames = users?.results.filter((element) => element.id === personId)
+        return personNames?.[0].properties.Name.title[0].plain_text
+        }
 
     const getTotalHoursWorked = (arr) => {
         let sum = 0
@@ -48,20 +51,17 @@ export const AdminContainer = () => {
     //Eventhandler that gets the value of the selected project in dropdown and sets it as state
     const handleProjectChange = (e) => {
         setSelectedProject(e.value)
+        filterAfterProjectAndWeek(e.value, selectedWeek)
     }
 
     //Eventhandler that gets the value of the selected week in the dropdown and sets it as state
     const handleWeekChange = (e) => {
         setSelectedWeek(e.value)
-    }
-
-    function setDateAndWeek(date, week){
-        setDatePickerStatus(date)
-        setSelectWeekStatus(week)
+        filterAfterProjectAndWeek(selectedProject, e.value)
     }
 
     //waits till all data is loaded and then populates the options arrays
-    if(!loadingProjects && !loadingUsers && !loadingTimereports){
+    if(!loadingProjects && !loadingTimereports){
         //Adds projects to the dropdown menu
         projects.results.map((projects) => projectOptions.push({value: projects.id, label: projects.properties.Projectname.title[0].plain_text}))
         
@@ -73,30 +73,24 @@ export const AdminContainer = () => {
         
         //when all dropdown options has been populated loaded is set to true and passed as prop to the component
         loaded = true
-
-        
-        /* ------------------------------------------------------------------------------ */
-
     }
 
     //LOGIK
     return (
         <AdminComponent 
-        loaded={loaded} 
+        loaded={loaded}
         projectOptions={projectOptions} 
         weekOptions={weekOptions}
         error={timereportsError}
-        timereport={timereport} 
+        project={project}
+        timereportsOutOfSpan={auth.timereportsOutOfSpan} 
+        getReportedTime={getReportedTime}
+        getProjectHoursLeft={getProjectHoursLeft}
         handleProjectChange={handleProjectChange}  
         handleWeekChange={handleWeekChange}
         getTotalHoursWorked={getTotalHoursWorked}
         addProjectName={addProjectName}
         addPersonName={addPersonName}
-        setDateAndWeek={setDateAndWeek}
-        datePickerStatus={datePickerStatus}
-        selectWeekStatus={selectWeekStatus}
-        filterAfterDate={filterAfterDate}
-        setStartDate={setStartDate}
         />
     )
 }

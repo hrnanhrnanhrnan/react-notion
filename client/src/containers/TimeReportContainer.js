@@ -54,6 +54,7 @@ export const TimeReportContainer = () => {
       setLoaded(res.ok)
       if(loaded) {
         setInputs({})
+        auth.updateTimeReports()
       }
     }
 

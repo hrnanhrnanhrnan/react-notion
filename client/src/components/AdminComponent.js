@@ -19,92 +19,64 @@ export const AdminComponent = (props) => {
                     </>
                 ) : (
                     <div className="container">
-                                <h4>Projektledare</h4>
+                                <h4>Projectleader</h4>
                                 <h4 className="pt-3 text-center">Select Project</h4> 
                                 <Select options={props.projectOptions} onChange={props.handleProjectChange} className="text-dark text-center content"/>
                                 <h4 className="pt-3 text-center">Select Week</h4>
                                 <Select options={props.weekOptions} onChange={props.handleWeekChange} className="text-dark text-center content"/>
-                                <Table responsive variant="dark" striped bordered hover>
-                                <thead>
+                                <Table className="content mt-3" responsive variant="dark" striped bordered hover>
+                                <thead className="content">
                                     <tr>
                                     <th>Project</th>
-                                    <th>Hours</th>
-                                    <th>Date</th>
+                                    <th>Reported Time</th>
                                     <th>Hours left</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
-                                </Table>
-
-
-                                <h4>Chef</h4>
-                                <Dropdown>
-                                    <Dropdown.Toggle id="dropdown-basic">
-                                        Choose Date or week
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item onClick={(() => {
-                                            props.setDateAndWeek(true, false)
-                                        })}>Date</Dropdown.Item>
-                                        <Dropdown.Item onClick={(() => {
-                                            props.setDateAndWeek(false, true)
-                                        })} >Week</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                    </Dropdown>
                                 {
-                                    props.datePickerStatus ? 
-                                    (
-                                        <div>
-                                        <h4 className="pt-3 text-center">Select Date</h4>
-                                        <DatePicker
-                                        className="text-center w-100"
-                                        id="datepickertest"
-                                        selected={props.startDate}
-                                        onChange={(date) => {
-                                            props.setStartDate(date)
-                                            props.filterAfterDate(date.toLocaleDateString("sv"))
-                                            }}
-                                        locale="sv"
-                                        showWeekNumbers
-                                        dateFormat={"yyyy/MM/dd"}
-                                        strictParsing
-                                        todayButton="Today"
-                                        />
-                                        </div>
-                                    ) : props.selectWeekStatus ? (
-                                        <div>
-                                        <h4 className="pt-3 text-center">Select Week</h4>
-                                        <Select options={props.weekOptions} onChange={props.handleWeekChange} className="text-dark text-center content"/>
-                                        </div>
-                                    ) : null
-                                }
-                                <Table responsive variant="dark" striped bordered hover>
-                                <thead>
-                                    <tr>
-                                    <th>Project</th>
-                                    <th>Person</th>
-                                    <th>Date</th>
-                                    <th>Week</th>
-                                    <th>Hours</th>
-                                    </tr>
-                                </thead>
-                                {
-                                    props.timereport?.map(row => (
-                                    <tbody>
-                                    <tr>
-                                        <td>{props.addProjectName(row.properties.Project.relation[0].id)}</td>
-                                        <td>{props.addPersonName(row.properties.Person.relation[0].id)}</td>
-                                        <td>{row.properties.Date.date.start}</td>
-                                        <td>{row.properties.Week.number}</td>
-                                        <td>{row.properties.Hours.number}</td>
-                                    </tr>
+                                    props.project?.map(row => (
+                                    <tbody className="content" key={row.id}>
+                                        <tr key={row.id + 1}>
+                                            <td key={row.id + 2}>{row.properties.Projectname.title[0].plain_text}</td>
+                                            <td key={row.id + 3}>{props.getReportedTime(row.id)}</td>
+                                            <td key={row.id + 4}>{row.properties["Hours left"].formula.number}</td>
+                                        </tr>
                                     </tbody>
                                     ))
                                 }
-                                <tfoot>Total hours reported: {props.timereport && props.getTotalHoursWorked(props.timereport)}</tfoot>
                                 </Table>
+
+                                {
+                                    props.timereportsOutOfSpan?.length > 0 ? (
+                                        <>
+                                        <h4>Projects out of span</h4>
+                                        <Table className="content mt-3" responsive variant="dark" striped bordered hover>
+                                <thead className="content">
+                                    <tr>
+                                    <th>Date</th>
+                                    <th>Project</th>
+                                    <th>Person</th>
+                                    <th>Note</th>
+                                    </tr>
+                                </thead>
+                                {
+                                    props.timereportsOutOfSpan?.map(row => (
+                                    <tbody className="content" key={row.id}>
+                                        <tr key={row.id + 1}>
+                                            <td key={row.id + 2}>{row.properties.Date.date.start}</td>
+                                            <td key={row.id + 3}>{props.addProjectName(row?.properties.Project.relation[0].id)}</td>
+                                            <td key={row.id + 4}>{props.addPersonName(row?.properties.Person.relation[0].id)}</td>
+                                            <td key={row.id + 5}>{row?.properties.Note.title[0].plain_text}</td>
+                                        </tr>
+                                    </tbody>
+                                    ))
+                                }
+                                </Table>
+                                </>
+                                    ) : (
+                                        null
+                                    )
+                                }
+                                
 
                     </div>
 

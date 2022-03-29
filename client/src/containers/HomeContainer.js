@@ -1,8 +1,7 @@
+import { HomeComponent } from "../components/HomeComponent";
 import React, { useState } from "react";
 import { useFetch } from "../customHooks/UseFetch";
-import Select from "react-select"
-import {Table, Dropdown} from "react-bootstrap"
-import DatePicker, { registerLocale } from "react-datepicker"
+import { registerLocale } from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import sv from "date-fns/locale/sv";
 registerLocale("sv", sv);
@@ -21,8 +20,14 @@ export const HomeContainer = () => {
     const [datePickerStatus, setDatePickerStatus] = useState(false)
     const [selectWeekStatus, setSelectWeekStatus] = useState(false)
 
-    const filterAfterDate = (date) => {
-        !loadingTimereports &&  setTimereport(timereports.results?.filter(row => date ? row.properties.Date.date.start === date : row.properties.Date.date.start !== date))
+    const filterAfterDateOrWeek = (date, week) => {
+        if (datePickerStatus && !selectWeekStatus) {
+            setTimereport(timereports.results?.filter(row => date ? row.properties.Date.date.start === date : row.properties.Date.date.start !== date))
+        }
+        else {
+            setTimereport(timereports.results?.filter(row => week ? row.properties.Week.number === week : row.properties.Week.number !== week))
+        }
+        
     }
     
 
@@ -38,28 +43,28 @@ export const HomeContainer = () => {
        return personNames[0].properties.Name.title[0].plain_text
     }
 
-    function getHoursWorked(timereportId){
-        const workedHours = projects.results.filter((element) => element.id === timereportId)
-        return workedHours[0].properties["Worked hours"].rollup.number
-    }
-
-    //Eventhandler that gets the value of the selected project in dropdown and sets it as state
-    const handleProjectChange = (e) => {
-        setSelectedProject(e.value)
-        //filterAfterSelectedOptions(e.value, selectedPerson, selectedWeek)
-    }
-
-    //Eventhandler that gets the value of the selected week in the dropdown and sets it as state
-    const handleWeekChange = (e) => {
-        setSelectedWeek(e.value)
-    }
-
-    const sumOfHours = (arr) => {
+    const getTotalHoursWorked = (arr) => {
         let sum = 0
         for (let index = 0; index < arr.length; index++) {
             sum += arr[index].properties.Hours.number
         }
         return sum
+    }
+
+    //Eventhandler that gets the value of the selected project in dropdown and sets it as state
+    const handleProjectChange = (e) => {
+        setSelectedProject(e.value)
+    }
+
+    //Eventhandler that gets the value of the selected week in the dropdown and sets it as state
+    const handleWeekChange = (e) => {
+        setSelectedWeek(e.value)
+        filterAfterDateOrWeek(startDate, e.value)
+    }
+
+    function setDateAndWeek(date, week){
+        setDatePickerStatus(date)
+        setSelectWeekStatus(week)
     }
 
     //waits till all data is loaded and then populates the options arrays
@@ -76,136 +81,37 @@ export const HomeContainer = () => {
         //when all dropdown options has been populated loaded is set to true and passed as prop to the component
         loaded = true
 
-        
-        /* ------------------------------------------------------------------------------ */
-
     }
 
-    //LOGIK
     return (
-        <div className="container-fluid text-white">
-            {
-                !loaded ? (
-                    <>
-                        <div className="spinner-border text-muted">
-                        </div>
-                        <p>{timereportsError}</p>
-                    </>
-                ) : (
-
-                    <div className="container">
-                                <h4>Projektledare</h4>
-                                <h4 className="pt-3 text-center">Select Project</h4> 
-                                <Select options={projectOptions} onChange={handleProjectChange} className="text-dark text-center content"/>
-                                <h4 className="pt-3 text-center">Select Week</h4>
-                                <Select options={weekOptions} onChange={handleWeekChange} className="text-dark text-center content"/>
-                                <Table responsive variant="dark" striped bordered hover>
-                                <thead>
-                                    <tr>
-                                    <th>Project</th>
-                                    <th>Hours</th>
-                                    <th>Date</th>
-                                    <th>Hours left</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                                </Table>
-
-
-                                <h4>Chef</h4>
-                                <Dropdown>
-                                    <Dropdown.Toggle id="dropdown-basic">
-                                        Choose Date or week
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item onClick={(() => {
-                                            setDatePickerStatus(true)
-                                            setSelectWeekStatus(false)
-                                        })}>Date</Dropdown.Item>
-                                        <Dropdown.Item onClick={(() => {
-                                            setDatePickerStatus(false)
-                                            setSelectWeekStatus(true)
-                                        })} >Week</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                    </Dropdown>
-                                {
-                                    datePickerStatus ? 
-                                    (
-                                        <div>
-                                        <h4 className="pt-3 text-center">Select Date</h4>
-                                        <DatePicker
-                                        className="text-center w-100"
-                                        id="datepickertest"
-                                        selected={startDate}
-                                        onChange={(date) => {
-                                            setStartDate(date)
-                                            filterAfterDate(date.toLocaleDateString("sv"))
-                                            }}
-                                        locale="sv"
-                                        showWeekNumbers
-                                        dateFormat={"yyyy/MM/dd"}
-                                        strictParsing
-                                        todayButton="Today"
-                                        />
-                                        </div>
-                                    ) : selectWeekStatus ? (
-                                        <div>
-                                        <h4 className="pt-3 text-center">Select Week</h4>
-                                        <Select options={weekOptions} onChange={handleWeekChange} className="text-dark text-center content"/>
-                                        </div>
-                                    ) : null
-                                }
-                                <Table responsive variant="dark" striped bordered hover>
-                                <thead>
-                                    <tr>
-                                    <th>Project</th>
-                                    <th>Person</th>
-                                    <th>Date</th>
-                                    <th>Week</th>
-                                    <th>Hours</th>
-                                    </tr>
-                                </thead>
-                                {
-                                    timereport?.map(row => (
-                                    <tbody>
-                                    <tr>
-                                        <td>{addProjectName(row.properties.Project.relation[0].id)}</td>
-                                        <td>{addPersonName(row.properties.Person.relation[0].id)}</td>
-                                        <td>{row.properties.Date.date.start}</td>
-                                        <td>{row.properties.Week.number}</td>
-                                        <td>{row.properties.Hours.number}</td>
-                                    </tr>
-                                    </tbody>
-                                    ))
-                                }
-                                <tfoot>Total hours reported: {timereport && sumOfHours(timereport)}</tfoot>
-                                </Table>
-
-                    </div>
-
-                    
-
-
-                )
-            }
-
-        </div>
+        <HomeComponent 
+        loaded={loaded}
+        startDate={startDate} 
+        projectOptions={projectOptions} 
+        weekOptions={weekOptions}
+        error={timereportsError}
+        timereport={timereport}
+        selectedWeek={selectedWeek} 
+        handleProjectChange={handleProjectChange}  
+        handleWeekChange={handleWeekChange}
+        getTotalHoursWorked={getTotalHoursWorked}
+        addProjectName={addProjectName}
+        addPersonName={addPersonName}
+        setDateAndWeek={setDateAndWeek}
+        datePickerStatus={datePickerStatus}
+        selectWeekStatus={selectWeekStatus}
+        filterAfterDateOrWeek={filterAfterDateOrWeek}
+        setStartDate={setStartDate}
+        />
     )
+
 }
 
-{/* <AdminComponent 
-loaded={loaded} 
-projectOptions={projectOptions} 
-userOptions={userOptions} 
-weekOptions={weekOptions}
-error={timereportsError}
-timereport={timereport} 
-handleProjectChange={handleProjectChange} 
-handlePersonChange={handlePersonChange}  
-handleWeekChange={handleWeekChange}
-getHoursWorked={getHoursWorked}
-addProjectName={addProjectName}
-addPersonName={addPersonName}
-/> */}
+
+    // //takes in the current user and displays it to the screen
+    // const auth = useAuth()
+    // return (
+    //     <div className="container-fluid text-white">
+    //         <h1 className="display-1">Welcome {auth.user.label}</h1>
+    //     </div>
+    // )

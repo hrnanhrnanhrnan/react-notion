@@ -1,15 +1,19 @@
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
+import { useFetch } from "../customHooks/UseFetch";
 
 const AuthContext = createContext(null)
 
 export const AuthProvider = ({children}) => {
     //Gets user from localStorage as state, null if not logged in
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("userData")))
-
+    const [timereportsOutOfSpan, setTimereportsOutOfSpan] = useState([])
+    const {data: projects, isLoading: loadingProjects} = useFetch("/get_projects")
+    
     //Adds user to localStorage JSON file. Then sets user in state
     const login = (user) => {
         localStorage.setItem("userData", JSON.stringify(user));
         setUser(user)
+        updateTimeReports()
     }
 
     //Clears user logged in from localStorage/state
@@ -18,9 +22,31 @@ export const AuthProvider = ({children}) => {
         localStorage.clear()
     }
 
+    const updateTimeReports = () => {
+        const timereports = []
+        fetch("/get_timereports")
+        .then(res => {
+            if(res.ok){
+                return res.json()
+            }
+        }).then(jsonResponse => {
+            //loopa igenom timereports och hitta alla project och matcha mot tidrapporten
+            for(let idx = 0; idx < jsonResponse.results.length; idx++){
+                if((new Date(jsonResponse.results[idx].properties["Date"].date.start) > 
+                    new Date(projects.results.filter(row => row.id === jsonResponse.results[idx].properties.Project.relation[0].id)[0].properties.Timespan.date.end))
+                    || 
+                    (new Date(jsonResponse.results[idx].properties["Date"].date.start) < 
+                    new Date(projects.results.filter(row => row.id === jsonResponse.results[idx].properties.Project.relation[0].id)[0].properties.Timespan.date.start))) {
+                    timereports.push(jsonResponse.results[idx])
+                }
+            }
+            setTimereportsOutOfSpan(timereports)
+        })
+    }
+        
     //Returns value to authorize user to continue after login
     return (
-        <AuthContext.Provider value={{user, login, logout}}>
+        <AuthContext.Provider value={{user, timereportsOutOfSpan, updateTimeReports, login, logout}}>
             {children}
         </AuthContext.Provider>
     )
