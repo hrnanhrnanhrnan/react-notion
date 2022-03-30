@@ -10,6 +10,6 @@ export const NavbarContainer = (props) => {
 
   //Mounts the navbarcomponent and sends in the handleclick eventhandler and the logo
     return (
-      <NavbarComponent logo={props.logo} handleClick={handleClick} user={auth?.user}/>
+      <NavbarComponent logo={props.logo} handleClick={handleClick} user={auth?.user} warnings={auth?.timereportsOutOfSpan}/>
     )
 }

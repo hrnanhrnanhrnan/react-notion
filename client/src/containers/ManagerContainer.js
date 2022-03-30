@@ -1,44 +1,43 @@
 import React, { useState } from "react";
 import { useFetch } from "../customHooks/UseFetch";
-import { AdminComponent } from "../components/AdminComponent.js"
-import {useAuth} from "../contexts/AuthContext"
+import { ManagerComponent } from "../components/ManagerComponent.js"
 
-export const AdminContainer = () => {
+export const ManagerContainer = () => {
     const projectOptions = [{value: undefined, label: "All"}]
     const weekOptions = [{value: undefined, label: "All"}]
     const [selectedProject, setSelectedProject] = useState()
     const [selectedWeek, setSelectedWeek] = useState()
-    const [project, setProject] = useState([])
+    const [startDate, setStartDate] = useState(new Date())
+    const [timereport, setTimereport] = useState([])
+    const {data: users, isLoading: loadingUsers} = useFetch("/get_members")
     const {data: projects, isLoading: loadingProjects} = useFetch("/get_projects")
     const {data: timereports, isLoading: loadingTimereports, error: timereportsError} = useFetch("/get_timereports")
-    const {data: users} = useFetch("/get_members")
     let loaded = false
-    const auth = useAuth()
+    const [datePickerStatus, setDatePickerStatus] = useState(false)
+    const [selectWeekStatus, setSelectWeekStatus] = useState(false)
 
-    const getProjectHoursLeft = (projectId) => {
-        return projects?.results?.filter(row => row.id === projectId)?.map(project => project.properties["Hours left"])[0]?.formula.number
-    }
-
-    const filterAfterProjectAndWeek = (projectId) => {
-        setProject(projects.results.filter(row => projectId ? row.id === projectId : row.id !== projectId))
-    }
-
-    const getReportedTime = (projectId) => {
-        return getTotalHoursWorked(timereports?.results.filter(row => (row.properties.Project.relation[0].id === projectId) &&
-        (selectedWeek ? row.properties.Week.number === selectedWeek : row.properties.Week.number !== selectedWeek)))
+    const filterAfterDateOrWeek = (date, week) => {
+        if (datePickerStatus && !selectWeekStatus) {
+            setTimereport(timereports.results?.filter(row => date ? row.properties.Date.date.start === date : row.properties.Date.date.start !== date))
+        }
+        else {
+            setTimereport(timereports.results?.filter(row => week ? row.properties.Week.number === week : row.properties.Week.number !== week))
+        }
+        
     }
     
+
    //Maps the projects name when project and timereport id is the same
    function addProjectName(projectId){
-       const projectNames = projects?.results.filter((element) => element.id === projectId)
-       return projectNames?.[0].properties.Projectname.title[0].plain_text
+       const projectNames = projects.results.filter((element) => element.id === projectId)
+       return projectNames[0].properties.Projectname.title[0].plain_text
     }
 
     //Maps the persons name when person and timereports id is the same
     function addPersonName(personId){
-        const personNames = users?.results.filter((element) => element.id === personId)
-        return personNames?.[0].properties.Name.title[0].plain_text
-        }
+       const personNames = users.results.filter((element) => element.id === personId)
+       return personNames[0].properties.Name.title[0].plain_text
+    }
 
     const getTotalHoursWorked = (arr) => {
         let sum = 0
@@ -51,17 +50,21 @@ export const AdminContainer = () => {
     //Eventhandler that gets the value of the selected project in dropdown and sets it as state
     const handleProjectChange = (e) => {
         setSelectedProject(e.value)
-        filterAfterProjectAndWeek(e.value, selectedWeek)
     }
 
     //Eventhandler that gets the value of the selected week in the dropdown and sets it as state
     const handleWeekChange = (e) => {
         setSelectedWeek(e.value)
-        filterAfterProjectAndWeek(selectedProject, e.value)
+        filterAfterDateOrWeek(startDate, e.value)
+    }
+
+    function setDateAndWeek(date, week){
+        setDatePickerStatus(date)
+        setSelectWeekStatus(week)
     }
 
     //waits till all data is loaded and then populates the options arrays
-    if(!loadingProjects && !loadingTimereports){
+    if(!loadingProjects && !loadingUsers && !loadingTimereports){
         //Adds projects to the dropdown menu
         projects.results.map((projects) => projectOptions.push({value: projects.id, label: projects.properties.Projectname.title[0].plain_text}))
         
@@ -73,24 +76,29 @@ export const AdminContainer = () => {
         
         //when all dropdown options has been populated loaded is set to true and passed as prop to the component
         loaded = true
+
     }
 
     //LOGIK
     return (
-        <AdminComponent 
+        <ManagerComponent 
         loaded={loaded}
+        startDate={startDate} 
         projectOptions={projectOptions} 
         weekOptions={weekOptions}
         error={timereportsError}
-        project={project}
-        timereportsOutOfSpan={auth.timereportsOutOfSpan} 
-        getReportedTime={getReportedTime}
-        getProjectHoursLeft={getProjectHoursLeft}
+        timereport={timereport}
+        selectedWeek={selectedWeek} 
         handleProjectChange={handleProjectChange}  
         handleWeekChange={handleWeekChange}
         getTotalHoursWorked={getTotalHoursWorked}
         addProjectName={addProjectName}
         addPersonName={addPersonName}
+        setDateAndWeek={setDateAndWeek}
+        datePickerStatus={datePickerStatus}
+        selectWeekStatus={selectWeekStatus}
+        filterAfterDateOrWeek={filterAfterDateOrWeek}
+        setStartDate={setStartDate}
         />
     )
 }

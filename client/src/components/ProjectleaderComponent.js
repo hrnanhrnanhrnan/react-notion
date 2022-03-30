@@ -1,17 +1,70 @@
-import React from "react";
-import Select from "react-select";
+import { Button, Form } from "react-bootstrap";
+import Select from "react-select"
 import {Table, Dropdown} from "react-bootstrap"
 import DatePicker, { registerLocale } from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import sv from "date-fns/locale/sv";
 registerLocale("sv", sv);
 
-export const AdminComponent = (props) => {
-    //SHOW ME WHAT YOU GOT!
-    return (
-        <div className="container-fluid text-white">
+export const ProjectleaderComponent = (props) => {
+return (
+    <div className="container-fluid-test bg-dark text-white" >
+        <div className="container-fluid-test1 bg-dark text-white">
+            <Select options={props.options} onChange={props.handleDropmenu} className="text-dark position-top text-center" id="test"/>
             {
-                !props.loaded ? (
+                props.showProject.map((project) => ( 
+                    <ul key={project.id + 1}>
+                    <li key={project.id + 2}> Name: {project.properties.Projectname.title[0].plain_text} </li>
+                    <li key={project.id + 3}> Hours: {project.properties.Hours.number} </li>
+                    <li key={project.id + 4}> Timespan: {
+                        (function () {                               
+                            if (new Date(project.properties.Timespan?.date?.end) < new Date()) {
+                                return <strong className="text-danger">{`${project.properties.Timespan.date?.start} - ${project.properties.Timespan?.date?.end}`}<br />Project has passed its end date.</strong>;
+                            } else {
+                                return <>{`${project.properties.Timespan.date?.start} - ${project.properties.Timespan?.date?.end}`}</>;
+                            }
+                            })()                           
+                        } </li>
+                    </ul>                                             
+                ))                   
+            }
+        </div>
+        <div className="container-fluid-test2 bg-dark text-white">
+            <Form onSubmit={props.handleSubmit} id="test">
+                <Form.Group className="mb-5 text-white" controlId="hourTest" >
+                    <Form.Label>Hours: </Form.Label>
+                        <Form.Control 
+                            className="text-center"
+                            placeholder="0"
+                            type="number" 
+                            name="hours" 
+                            value={props.inputs.hours || "" } 
+                            onChange={props.handleChange}
+                            required
+                        />
+                    <Button variant="primary" type="submit" className="submitButton">Change Hours</Button>
+                </Form.Group>
+            </Form>
+            <Form onSubmit={props.handleSubmitDate} id="test" >
+                <Form.Group className="mb-5 text-white" controlId="dateTest" >
+                    <Form.Label>Date: </Form.Label>
+                        <DatePicker 
+                            className="text-center w-100"
+                            id="datepickertest"
+                            selected={props.endDate}
+                            onChange={(date) => props.setEndDate(date)}
+                            locale="sv"
+                            showWeekNumbers
+                            dateFormat={"yyyy-MM-dd"}
+                            strictParsing
+                            todayButton="Today"
+                        />
+                    <Button variant="primary" type="submit" className="submitButton">Change Date</Button>
+                </Form.Group>
+            </Form>
+        </div>
+        {
+                !props.loadedData ? (
                     <>
                         <div className="spinner-border text-muted">
                         </div>
@@ -83,6 +136,6 @@ export const AdminComponent = (props) => {
                     
                 )
             }
-        </div>
-    )
+    </div>
+)
 }
