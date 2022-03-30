@@ -43,11 +43,12 @@ export function LoginContainer() {
 
     //Returns data to LoginComponent for display correctly
     return (
-        <LoginComponent isLoading={isLoading} 
+        <LoginComponent
+        isLoading={isLoading} 
         error={error} 
         options={options}
-        handleChange={handleChange} 
         routeChange={routeChange} 
+        handleChange={handleChange} 
         onClickHandle={onClickHandle} />
     )
 }

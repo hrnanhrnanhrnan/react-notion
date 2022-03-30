@@ -129,6 +129,8 @@ export const ProjectleaderContainer = () => {
         for(let i = 0; i < unique.length; i++){
             weekOptions.push({value: unique[i], label: unique[i]})
         }
+
+
         
         //when all dropdown options has been populated loaded is set to true and passed as prop to the component
         loadedData = true
