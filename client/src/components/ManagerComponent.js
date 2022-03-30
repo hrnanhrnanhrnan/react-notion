@@ -7,7 +7,7 @@ import sv from "date-fns/locale/sv";
 registerLocale("sv", sv);
 
 export const ManagerComponent = (props) => {
-    //SHOW ME WHAT YOU GOT!
+    
     return (
         <div className="container-fluid text-white">
             {

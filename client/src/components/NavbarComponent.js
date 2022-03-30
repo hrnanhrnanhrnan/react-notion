@@ -13,12 +13,12 @@ export const NavbarComponent = (props) => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link as={NavLink} to="/home">home</Nav.Link>
-              <Nav.Link as={NavLink} to="/projects">projects</Nav.Link>
-              <Nav.Link as={NavLink} to="/timereport">timereport</Nav.Link>
-              {props.user.adminAuthorized && <Nav.Link as={NavLink} to="/manager">manager</Nav.Link>}
-              {props.user.adminAuthorized && <Nav.Link as={NavLink} to="/projectleader">projectleader{props.warnings?.length > 0 ? <span className="badge bg-danger">{props.warnings?.length}</span> : null}</Nav.Link>}
-              <Nav.Link onClick={props.handleClick}>logout</Nav.Link>
+            <header> <Nav.Link as={NavLink}  to="/home">home</Nav.Link></header>
+            <header><Nav.Link as={NavLink} to="/projects">projects</Nav.Link></header>
+            <header><Nav.Link as={NavLink} to="/timereport">timereport</Nav.Link></header>
+            <header> {props.user.adminAuthorized && <Nav.Link as={NavLink} to="/manager">admin {props.warnings?.length > 0 ? <span className="badge bg-danger">{props.warnings?.length}</span> : null}</Nav.Link>}</header>
+            <header>{props.user.adminAuthorized && <Nav.Link as={NavLink} to="/projectleader">test</Nav.Link>}</header>
+            <header> <Nav.Link onClick={props.handleClick}>logout</Nav.Link></header>
             </Nav>
           </Navbar.Collapse>
         </Container>

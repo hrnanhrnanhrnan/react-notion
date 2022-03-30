@@ -27,7 +27,7 @@ export const App = () => {
         </div>
       ) : (
         <>
-        <NavbarContainer logo={logoData.icon.emoji} />
+         <NavbarContainer logo={logoData.icon.emoji} alt="Logo Lion" />
         <Routes>
           <Route path="home" element={<HomeContainer />}/>
           <Route path="projects" element={<ProjectsContainer />}/>
