@@ -18,7 +18,7 @@ export const TimeReportComponent = (props) => {
             ) : (
                 <Form onSubmit={props.handleSubmit} id="test">
                     <Form.Group className="mb-5 text-white" controlId="formBasic" >
-                        <Form.Label>Date: </Form.Label>
+                        <h5><Form.Label>Date: </Form.Label></h5>
                             <DatePicker
                                 className="text-center w-100"
                                 id="datepickertest"
@@ -30,7 +30,7 @@ export const TimeReportComponent = (props) => {
                                 strictParsing
                                 todayButton="Today"
                             />
-                        <Form.Label>Hours: </Form.Label>
+                        <h5><Form.Label>Hours: </Form.Label></h5>
                             <Form.Control 
                                 className="text-center"
                                 placeholder="0"
@@ -40,11 +40,11 @@ export const TimeReportComponent = (props) => {
                                 onChange={props.handleChange}
                                 required
                             />
-                        <Form.Label>Project: </Form.Label>
+                        <h5><Form.Label>Project: </Form.Label></h5>
                         
                         <Select options={props.options} onChange={props.handleDropmenu} required className="text-dark"/>
             
-                        <Form.Label>Note: </Form.Label>
+                        <h5><Form.Label>Note: </Form.Label></h5>
                             <Form.Control 
                                 placeholder="Comment"
                                 as="textarea"

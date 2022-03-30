@@ -15,16 +15,16 @@ export const AuthProvider = ({children}) => {
         setUser(user)
         updateTimeReports()
     }
-
+    
     //Clears user logged in from localStorage/state
     const logout = () => {
         setUser(null)
         localStorage.clear()
     }
 
-    const updateTimeReports = () => {
+    const updateTimeReports = async () => {
         const timereports = []
-        fetch("/get_timereports")
+        await fetch("/get_timereports")
         .then(res => {
             if(res.ok){
                 return res.json()
@@ -46,7 +46,7 @@ export const AuthProvider = ({children}) => {
         
     //Returns value to authorize user to continue after login
     return (
-        <AuthContext.Provider value={{user, timereportsOutOfSpan, updateTimeReports, login, logout}}>
+        !loadingProjects && <AuthContext.Provider value={{user, timereportsOutOfSpan, updateTimeReports, login, logout}}>
             {children}
         </AuthContext.Provider>
     )
