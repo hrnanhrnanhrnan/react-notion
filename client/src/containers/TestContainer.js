@@ -26,6 +26,7 @@ export const TestContainer = () => {
 
     const handleDropmenu = (event) => {
         setshowProject(projectsToShow(event.value))
+        setInputs({hours: data.results.filter(project => project.id === event.value)[0].properties.Hours.number})
     }
    
     const projectsToShow = (id) => 
@@ -49,8 +50,6 @@ export const TestContainer = () => {
     
     // ---------------------Datepicker-----------------------------------------------
     const [endDate, setEndDate] = useState(new Date())
-    
-    //const [time, setTime] = useState(0)
 
     const handleSubmitDate = async (event) => {
         const formatedDate = ((date) => {
