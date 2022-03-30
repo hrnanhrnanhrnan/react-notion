@@ -6,42 +6,47 @@ import { useFetch } from "../customHooks/UseFetch";
 import { putRequest } from "../utilities/putRequest.js";
 
 export const ProjectleaderContainer = () => {
-
+    //Fetches data from different tables in Notion
+    const {data: projectData, isLoading: isLoadingProjects} = useFetch("/get_projects");
+    const {data: timereports, isLoading: loadingTimereports, error: timereportsError} = useFetch("/get_timereports")
+    const {data: users} = useFetch("/get_members")
+    //States
     const [inputs, setInputs] = useState({});
-    const {data, isLoading: isLoadingData} = useFetch("/get_projects");
-    const options = []
     const [showProject, setshowProject] = useState([]);
     const [loaded, setLoaded] = useState(true)
-    const auth = useAuth()
-
     const [endDate, setEndDate] = useState(new Date())
-
-    const projectOptions = [{value: undefined, label: "All"}]
-    const weekOptions = [{value: undefined, label: "All"}]
     const [selectedProject, setSelectedProject] = useState()
     const [selectedWeek, setSelectedWeek] = useState()
     const [project, setProject] = useState([])
-    const {data: timereports, isLoading: loadingTimereports, error: timereportsError} = useFetch("/get_timereports")
-    const {data: users} = useFetch("/get_members")
+    //Dropdown menu options
+    const projectOptions = [{value: undefined, label: "All"}]
+    const weekOptions = [{value: undefined, label: "All"}]
+    const auth = useAuth()
     let loadedData = false
+    const options = []
 
- !isLoadingData && (() => {
-        data.results.map((project) => options.push({value: project.id, label: project.properties.Projectname.title[0].plain_text} )) 
+    //When done loading projects, add to options dropdown menu.
+    !isLoadingProjects && (() => {
+        projectData.results.map((project) => options.push({value: project.id, label: project.properties.Projectname.title[0].plain_text} )) 
     })()
 
+    //Sets projects by value, in setShowProject state, then adds hours from selected project to inputs.hours
     const handleDropmenu = (event) => {
         setshowProject(projectsToShow(event.value))
-        setInputs({hours: data.results.filter(project => project.id === event.value)[0].properties.Hours.number})
+        setInputs({hours: projectData.results.filter(project => project.id === event.value)[0].properties.Hours.number})
     }
-   
-    const projectsToShow = (id) => 
-        data.results.filter(project => project.id === id)
-    
 
+    // Filters out data, if data/projects have the same id as passed id, return object
+    const projectsToShow = (id) => {
+        projectData.results.filter(project => project.id === id)
+    }
+
+    // Sets inputs from event, to display selected project
     const handleChange = (event) => {
         setInputs(values => ({...values, [event.target.name]: event.target.value}))
     }
 
+    //On submit button press, update value in Notion DB
     const handleSubmit = async (event) => {
         event.preventDefault();
         const [dateStr] = new Date().toISOString().split('T')
@@ -55,7 +60,7 @@ export const ProjectleaderContainer = () => {
     
     // ---------------------Datepicker-----------------------------------------------
     
-
+    // On button press, change timespan of selected project
     const handleSubmitDate = async (event) => {
         const formatedDate = ((date) => {
             const [dateStr] = new Date(date).toISOString().split('T')
@@ -73,23 +78,25 @@ export const ProjectleaderContainer = () => {
 
     //---------------------------------Admin stuff---------------------------------------------
     
-
+    // Filters out how many hours are left of selected project
     const getProjectHoursLeft = (projectId) => {
-        return data?.results?.filter(row => row.id === projectId)?.map(project => project.properties["Hours left"])[0]?.formula.number
+        return projectData?.results?.filter(row => row.id === projectId)?.map(project => project.properties["Hours left"])[0]?.formula.number
     }
 
+    // When selecting hours and project, set state to returned objects that passes the conditions
     const filterAfterProjectAndWeek = (projectId) => {
-        setProject(data.results.filter(row => projectId ? row.id === projectId : row.id !== projectId))
+        setProject(projectData.results.filter(row => projectId ? row.id === projectId : row.id !== projectId))
     }
 
+    // Calls the method to get total hours worked on specific project and week, the returns it
     const getReportedTime = (projectId) => {
         return getTotalHoursWorked(timereports?.results.filter(row => (row.properties.Project.relation[0].id === projectId) &&
         (selectedWeek ? row.properties.Week.number === selectedWeek : row.properties.Week.number !== selectedWeek)))
     }
     
-   //Maps the projects name when project and timereport id is the same
-   function addProjectName(projectId){
-       const projectNames = data?.results.filter((element) => element.id === projectId)
+    //Maps the projects name when project and timereport id is the same
+    function addProjectName(projectId){
+       const projectNames = projectData?.results.filter((element) => element.id === projectId)
        return projectNames?.[0].properties.Projectname.title[0].plain_text
     }
 
@@ -97,8 +104,9 @@ export const ProjectleaderContainer = () => {
     function addPersonName(personId){
         const personNames = users?.results.filter((element) => element.id === personId)
         return personNames?.[0].properties.Name.title[0].plain_text
-        }
+    }
 
+    // Adds together all worked hours, into a totalWorkedHours of project
     const getTotalHoursWorked = (arr) => {
         let sum = 0
         for (let index = 0; index < arr.length; index++) {
@@ -120,9 +128,9 @@ export const ProjectleaderContainer = () => {
     }
 
     //waits till all data is loaded and then populates the options arrays
-    if(!isLoadingData && !loadingTimereports){
+    if(!isLoadingProjects && !loadingTimereports){
         //Adds projects to the dropdown menu
-        data.results.map((projects) => projectOptions.push({value: projects.id, label: projects.properties.Projectname.title[0].plain_text}))
+        projectData.results.map((projects) => projectOptions.push({value: projects.id, label: projects.properties.Projectname.title[0].plain_text}))
         
         //Adds unique weeks to the dropdown menu
         const unique = [...new Set(timereports.results.map(row => row.properties.Week.number))]
@@ -140,18 +148,18 @@ export const ProjectleaderContainer = () => {
             handleDropmenu={handleDropmenu}
             handleSubmit={handleSubmit}
             handleSubmitDate={handleSubmitDate}
+            handleProjectChange={handleProjectChange}  
+            handleWeekChange={handleWeekChange}
+            addProjectName={addProjectName}
+            addPersonName={addPersonName}
+            getReportedTime={getReportedTime}
             options={options}
             endDate={endDate}
             setEndDate={setEndDate}
             inputs={inputs}
             showProject={showProject}
-            getReportedTime={getReportedTime}
             getProjectHoursLeft={getProjectHoursLeft}
-            handleProjectChange={handleProjectChange}  
-            handleWeekChange={handleWeekChange}
             getTotalHoursWorked={getTotalHoursWorked}
-            addProjectName={addProjectName}
-            addPersonName={addPersonName}
             loadedData={loadedData}
             projectOptions={projectOptions} 
             weekOptions={weekOptions}
