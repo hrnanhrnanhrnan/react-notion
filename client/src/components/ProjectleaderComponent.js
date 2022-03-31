@@ -10,6 +10,7 @@ export const ProjectleaderComponent = (props) => {
 return (
     <div className="container-fluid-test bg-dark text-white" >
         <div className="container-fluid-test1 bg-dark text-white">
+        {/* Dropdown menu for projects at the top of the page. And then shows data corresponding to chosen project.*/}
             <Select options={props.options} onChange={props.handleDropmenu} className="text-dark position-top text-center" id="test"/>
             {
                 props.showProject.map((project) => ( 
@@ -29,6 +30,7 @@ return (
                 ))                   
             }
         </div>
+        {/* Hours button and textfield. */}
         <div className="container-fluid-test2 bg-dark text-white">
             <Form onSubmit={props.handleSubmit} id="test">
                 <Form.Group className="mb-5 text-white" controlId="hourTest" >
@@ -45,6 +47,7 @@ return (
                     <Button variant="primary" type="submit" className="submitButton">Change Hours</Button>
                 </Form.Group>
             </Form>
+            {/* Update/Date button and textfield. */}
             <Form onSubmit={props.handleSubmitDate} id="test" >
                 <Form.Group className="mb-5 text-white" controlId="dateTest" >
                     <Form.Label>Date: </Form.Label>
