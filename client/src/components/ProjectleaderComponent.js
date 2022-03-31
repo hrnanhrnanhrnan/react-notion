@@ -40,6 +40,8 @@ return (
                         ))                   
                     }
                 </div>
+
+                {/* Hours button, date button and textfields. */}
                 <div className="container-fluid-test2 bg-dark text-white">
                     <Form onSubmit={props.handleSubmit}>
                         <Form.Group className="mb-5 text-white" controlId="hourForm" >
@@ -82,53 +84,53 @@ return (
                     <h4 className="lead pt-3 text-center">Select Week</h4>
                     <Select options={props.weekOptions} onChange={props.handleWeekChange} className="text-dark text-center content"/>
                     <Table className="content mt-3" responsive variant="dark" striped bordered hover>
-                    <thead className="content">
-                        <tr>
-                        <th>Project</th>
-                        <th>Reported Time</th>
-                        <th>Hours left</th>
-                        </tr>
-                    </thead>
-                    {
-                        props.project?.map(row => (
-                        <tbody className="content" key={row.id}>
-                            <tr key={row.id + 1}>
-                                <td key={row.id + 2}>{row.properties.Projectname.title[0].plain_text}</td>
-                                <td key={row.id + 3}>{props.getReportedTime(row.id)}</td>
-                                <td key={row.id + 4}>{row.properties["Hours left"].formula.number}</td>
+                        <thead className="content">
+                            <tr>
+                            <th>Project</th>
+                            <th>Reported Time</th>
+                            <th>Hours left</th>
                             </tr>
-                        </tbody>
-                        ))
-                    }
+                        </thead>
+                        {
+                            props.project?.map(row => (
+                            <tbody className="content" key={row.id}>
+                                <tr key={row.id + 1}>
+                                    <td key={row.id + 2}>{row.properties.Projectname.title[0].plain_text}</td>
+                                    <td key={row.id + 3}>{props.getReportedTime(row.id)}</td>
+                                    <td key={row.id + 4}>{row.properties["Hours left"].formula.number}</td>
+                                </tr>
+                            </tbody>
+                            ))
+                        }
                     </Table>
 
                     {
                         props.timereportsOutOfSpan?.length > 0 ? (
-                            <>
+                        <>
                             <h4 className="mt-4 text-center">Projects out of span</h4>
                             <Table className="content mt-3" responsive variant="dark" striped bordered hover>
-                    <thead className="content">
-                        <tr>
-                        <th>Date</th>
-                        <th>Project</th>
-                        <th>Person</th>
-                        <th>Note</th>
-                        </tr>
-                    </thead>
-                    {
-                        props.timereportsOutOfSpan?.map(row => (
-                        <tbody className="content" key={row.id}>
-                            <tr key={row.id + 1}>
-                                <td key={row.id + 2}>{row.properties.Date.date.start}</td>
-                                <td key={row.id + 3}>{props.addProjectName(row?.properties.Project.relation[0].id)}</td>
-                                <td key={row.id + 4}>{props.addPersonName(row?.properties.Person.relation[0].id)}</td>
-                                <td key={row.id + 5}>{row?.properties.Note.title[0].plain_text}</td>
-                            </tr>
-                        </tbody>
-                        ))
-                    }
-                    </Table>
-                    </>
+                                <thead className="content">
+                                    <tr>
+                                    <th>Date</th>
+                                    <th>Project</th>
+                                    <th>Person</th>
+                                    <th>Note</th>
+                                    </tr>
+                                </thead>
+                                {
+                                    props.timereportsOutOfSpan?.map(row => (
+                                    <tbody className="content" key={row.id}>
+                                        <tr key={row.id + 1}>
+                                            <td key={row.id + 2}>{row.properties.Date.date.start}</td>
+                                            <td key={row.id + 3}>{props.addProjectName(row?.properties.Project.relation[0].id)}</td>
+                                            <td key={row.id + 4}>{props.addPersonName(row?.properties.Person.relation[0].id)}</td>
+                                            <td key={row.id + 5}>{row?.properties.Note.title[0].plain_text}</td>
+                                        </tr>
+                                    </tbody>
+                                    ))
+                                }
+                            </Table>
+                        </>
                         ) : (
                             null
                         )
