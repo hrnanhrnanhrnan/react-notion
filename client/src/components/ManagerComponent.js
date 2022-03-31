@@ -26,10 +26,10 @@ export const ManagerComponent = (props) => {
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
-                                        <Dropdown.Item onClick={(() => {
+                                        <Dropdown.Item aria-label="dropdown menu to select date" onClick={(() => {
                                             props.setDateAndWeek(true, false)
                                         })}>Date</Dropdown.Item>
-                                        <Dropdown.Item onClick={(() => {
+                                        <Dropdown.Item aria-label="dropdown menu to select week" onClick={(() => {
                                             props.setDateAndWeek(false, true)
                                         })} >Week</Dropdown.Item>
                                     </Dropdown.Menu>
