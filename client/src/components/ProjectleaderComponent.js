@@ -8,10 +8,19 @@ registerLocale("sv", sv);
 
 export const ProjectleaderComponent = (props) => {
 return (
-    <div className="container-fluid-test bg-dark text-white" >
-        <div className="container-fluid-test1 bg-dark text-white">
-        {/* Dropdown menu for projects at the top of the page. And then shows data corresponding to chosen project.*/}
-            <Select options={props.options} onChange={props.handleDropmenu} className="text-dark position-top text-center" id="test"/>
+    <div className="container-fluid flex-column bg-dark text-white" >
+    {
+        !props.loadedData ? (
+                    <>
+                        <div className="spinner-border text-muted">
+                        </div>
+                        <p>{props.error}</p>
+                    </>
+                ) : (
+                    <>
+                    <div className="container-fluid-test1 bg-dark text-white">
+                    <h4>Change project information</h4>
+            <Select options={props.options} onChange={props.handleDropmenu} className="text-dark position-top text-center"/>
             {
                 props.showProject.map((project) => ( 
                     <ul key={project.id + 1}>
@@ -32,8 +41,8 @@ return (
         </div>
         {/* Hours button and textfield. */}
         <div className="container-fluid-test2 bg-dark text-white">
-            <Form onSubmit={props.handleSubmit} id="test">
-                <Form.Group className="mb-5 text-white" controlId="hourTest" >
+            <Form onSubmit={props.handleSubmit}>
+                <Form.Group className="mb-5 text-white" controlId="hourForm" >
                     <Form.Label>Hours: </Form.Label>
                         <Form.Control 
                             className="text-center"
@@ -47,9 +56,8 @@ return (
                     <Button variant="primary" type="submit" className="submitButton">Change Hours</Button>
                 </Form.Group>
             </Form>
-            {/* Update/Date button and textfield. */}
-            <Form onSubmit={props.handleSubmitDate} id="test" >
-                <Form.Group className="mb-5 text-white" controlId="dateTest" >
+            <Form onSubmit={props.handleSubmitDate} >
+                <Form.Group className="mb-5 text-white" controlId="dateForm" >
                     <Form.Label>Date: </Form.Label>
                         <DatePicker 
                             className="text-center w-100"
@@ -66,19 +74,12 @@ return (
                 </Form.Group>
             </Form>
         </div>
-        {
-                !props.loadedData ? (
-                    <>
-                        <div className="spinner-border text-muted">
-                        </div>
-                        <p>{props.error}</p>
-                    </>
-                ) : (
+
                     <div className="container">
-                                <h4>Projectleader</h4>
-                                <h4 className="pt-3 text-center">Select Project</h4> 
+                                <h4 className="text-center">View projects</h4>
+                                <h4 className="lead pt-3 text-center">Select Project</h4> 
                                 <Select options={props.projectOptions} onChange={props.handleProjectChange} className="text-dark text-center content"/>
-                                <h4 className="pt-3 text-center">Select Week</h4>
+                                <h4 className="lead pt-3 text-center">Select Week</h4>
                                 <Select options={props.weekOptions} onChange={props.handleWeekChange} className="text-dark text-center content"/>
                                 <Table className="content mt-3" responsive variant="dark" striped bordered hover>
                                 <thead className="content">
@@ -104,7 +105,7 @@ return (
                                 {
                                     props.timereportsOutOfSpan?.length > 0 ? (
                                         <>
-                                        <h4>Projects out of span</h4>
+                                        <h4 className="mt-4 text-center">Projects out of span</h4>
                                         <Table className="content mt-3" responsive variant="dark" striped bordered hover>
                                 <thead className="content">
                                     <tr>
@@ -135,10 +136,9 @@ return (
                                 
 
                     </div>
-
-                    
+                    </>
                 )
-            }
+    }
     </div>
 )
 }

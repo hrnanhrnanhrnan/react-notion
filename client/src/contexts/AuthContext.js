@@ -15,13 +15,14 @@ export const AuthProvider = ({children}) => {
         setUser(user)
         updateTimeReports()
     }
-    
+
     //Clears user logged in from localStorage/state
     const logout = () => {
         setUser(null)
         localStorage.clear()
     }
 
+    //Method to get the timereports that are out of the timespan and update the contexts state
     const updateTimeReports = async () => {
         const timereports = []
         await fetch("/get_timereports")
@@ -30,21 +31,30 @@ export const AuthProvider = ({children}) => {
                 return res.json()
             }
         }).then(jsonResponse => {
-            //loopa igenom timereports och hitta alla project och matcha mot tidrapporten
-            for(let idx = 0; idx < jsonResponse.results.length; idx++){
-                if((new Date(jsonResponse.results[idx].properties["Date"].date.start) > 
-                    new Date(projects.results.filter(row => row.id === jsonResponse.results[idx].properties.Project.relation[0].id)[0].properties.Timespan.date.end))
-                    || 
-                    (new Date(jsonResponse.results[idx].properties["Date"].date.start) < 
-                    new Date(projects.results.filter(row => row.id === jsonResponse.results[idx].properties.Project.relation[0].id)[0].properties.Timespan.date.start))) {
-                    timereports.push(jsonResponse.results[idx])
+            // loop through the timereports from the fetch and if the date of the timereports
+            // is lower or bigger than the corresponding timespan from the project to which the 
+            // timereport is reported to then it will get pushed to the timereports array which is then set as state
+            try{
+                for(let idx = 0; idx < jsonResponse.results.length; idx++){
+                    if((new Date(jsonResponse.results[idx].properties["Date"].date.start) > 
+                        new Date(projects.results.filter(row => row.id === jsonResponse.results[idx].properties.Project.relation[0].id)[0].properties.Timespan.date.end))
+                        || 
+                        (new Date(jsonResponse.results[idx].properties["Date"].date.start) < 
+                        new Date(projects.results.filter(row => row.id === jsonResponse.results[idx].properties.Project.relation[0].id)[0].properties.Timespan.date.start))) {
+                        timereports.push(jsonResponse.results[idx])
+                    }
                 }
+                setTimereportsOutOfSpan(timereports)
             }
-            setTimereportsOutOfSpan(timereports)
+            catch (error) {
+                throw new Error(error)
+            }
+        }).catch(error => {
+            console.log(error)
         })
     }
         
-    //Returns value to authorize user to continue after login
+    //Returns value to authorize user to continue after login, as well as the 
     return (
         !loadingProjects && <AuthContext.Provider value={{user, timereportsOutOfSpan, updateTimeReports, login, logout}}>
             {children}

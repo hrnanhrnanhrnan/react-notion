@@ -4,10 +4,10 @@ import { Container } from "react-bootstrap"
 import { NavLink } from "react-router-dom"
 
 
-//Displays the navbar, takes in eventhandler through props from Navbarcontainer
+//Displays the navbar, takes in eventhandler, user, logo and warnings through props from Navbarcontainer
 export const NavbarComponent = (props) => {
-  console.log("navbar mountade")
     return (
+      <header>
         <Navbar display="flex"  bg="dark" variant="dark" expand="sm" className="pb-3 sticky-top">
         <Container>
           <Navbar.Brand>{props.logo} : {props.user.label}</Navbar.Brand>
@@ -24,5 +24,6 @@ export const NavbarComponent = (props) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      </header>
     )
 }

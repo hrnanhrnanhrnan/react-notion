@@ -15,12 +15,12 @@ export const TimeReportComponent = (props) => {
                     </div>
                     <p>{props.error}</p>
                 </>
-            ) : (
+            ) : !props.isLoadingData && (
                 <Form onSubmit={props.handleSubmit} id="test">
                     <Form.Group className="mb-5 text-white" controlId="formBasic" >
                         <h5><Form.Label>Date: </Form.Label></h5>
                             <DatePicker
-                                className="text-center w-100"
+                                className="text-center w-100 content"
                                 id="datepickertest"
                                 selected={props.startDate}
                                 onChange={(date) => props.setStartDate(date)}
@@ -32,7 +32,7 @@ export const TimeReportComponent = (props) => {
                             />
                         <h5><Form.Label>Hours: </Form.Label></h5>
                             <Form.Control 
-                                className="text-center"
+                                className="text-center content"
                                 placeholder="0"
                                 type="number" 
                                 name="hours" 
@@ -42,10 +42,11 @@ export const TimeReportComponent = (props) => {
                             />
                         <h5><Form.Label>Project: </Form.Label></h5>
                         
-                        <Select options={props.options} onChange={props.handleDropmenu} required className="text-dark"/>
+                        <Select options={props.options} onChange={props.handleDropmenu} required className="text-dark content"/>
             
                         <h5><Form.Label>Note: </Form.Label></h5>
-                            <Form.Control 
+                            <Form.Control
+                                className="content" 
                                 placeholder="Comment"
                                 as="textarea"
                                 name="note" 

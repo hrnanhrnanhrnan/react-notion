@@ -67,7 +67,7 @@ export const TimeReportContainer = () => {
         return true
       }
     }
-    
+
     // Mounts the timereport component and sends the data and methods from container to the component
     return (
         <TimeReportComponent 

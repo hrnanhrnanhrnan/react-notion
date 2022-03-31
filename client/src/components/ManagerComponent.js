@@ -19,10 +19,9 @@ export const ManagerComponent = (props) => {
                     </>
                 ) : (
                     <div className="container content">
-                                <h4>Manager</h4>
                                 <Dropdown>
                                     <Dropdown.Toggle className="mb-3" id="dropdown-basic">
-                                        Choose Date or week
+                                        Sort on date or week
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
@@ -34,13 +33,14 @@ export const ManagerComponent = (props) => {
                                         })} >Week</Dropdown.Item>
                                     </Dropdown.Menu>
                                     </Dropdown>
+                    
                                 {
                                     props.datePickerStatus ? 
                                     (
                                         <div>
-                                        <h4 className="pt-3 text-center content">Select Date</h4>
+                                        <h4 className="lead pt-3 content">Select Date</h4>
                                         <DatePicker
-                                        className="text-center w-100 content mb-3"
+                                        className="text-center d-flex content content mb-3 pb-1"
                                         id="datepickertest"
                                         selected={props.startDate}
                                         onChange={(date) => {
@@ -56,8 +56,8 @@ export const ManagerComponent = (props) => {
                                         </div>
                                     ) : props.selectWeekStatus ? (
                                         <div>
-                                        <h4 className="pt-3 text-center content">Select Week</h4>
-                                        <Select options={props.weekOptions} onChange={props.handleWeekChange} className="text-dark text-center content mb-3"/>
+                                        <h4 className="lead pt-3 content">Select Week</h4>
+                                        <Select options={props.weekOptions} onChange={props.handleWeekChange} className="text-dark text-center w-50 content mb-3"/>
                                         </div>
                                     ) : null
                                 }

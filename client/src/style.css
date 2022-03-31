@@ -28,6 +28,8 @@ html {
   align-items: center;
   gap: 1rem;
   animation: drop 1s ease;
+  padding-bottom: 50px;
+  padding-top: 50px;
 }
 
 #projectmenu {
