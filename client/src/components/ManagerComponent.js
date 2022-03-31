@@ -19,6 +19,7 @@ export const ManagerComponent = (props) => {
                     </>
                 ) : (
                     <div className="container content">
+                                <h4>View timereports</h4>
                                 <Dropdown>
                                     <Dropdown.Toggle className="mb-3" id="dropdown-basic">
                                         Sort on date or week

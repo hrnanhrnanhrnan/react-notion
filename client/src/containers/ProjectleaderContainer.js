@@ -29,16 +29,17 @@ export const ProjectleaderContainer = () => {
     !isLoadingProjects && (() => {
         projectData.results.map((project) => options.push({value: project.id, label: project.properties.Projectname.title[0].plain_text} )) 
     })()
-
+    
     //Sets projects by value, in setShowProject state, then adds hours from selected project to inputs.hours
     const handleDropmenu = (event) => {
         setshowProject(projectsToShow(event.value))
         setInputs({hours: projectData.results.filter(project => project.id === event.value)[0].properties.Hours.number})
+        setEndDate(new Date(projectData.results.filter(row => row.id === event.value)[0].properties.Timespan.date.end))
     }
 
     // Filters out data, if data/projects have the same id as passed id, return object
     const projectsToShow = (id) => {
-        projectData.results.filter(project => project.id === id)
+        return projectData.results.filter(project => project.id === id)
     }
 
     // Sets inputs from event, to display selected project
@@ -52,9 +53,17 @@ export const ProjectleaderContainer = () => {
         const [dateStr] = new Date().toISOString().split('T')
       setLoaded(false)
       const res = await putRequest(`/updateProjectHours/${inputs.hours}/${showProject[0].id}/${auth.user.value}/${dateStr}`)
+      const reloadedProjects = await fetch("/get_projects")
+      .then(res => res.json())
+      .then(jsonRes => setshowProject(jsonRes.results.filter(row => row.id === showProject[0].id)))
       setLoaded(res.ok)
-      if(loaded) {
-        setInputs({})
+      if(loaded && reloadedProjects) {
+            try{
+                setInputs({hours: reloadedProjects.results.filter(project => project.id === event.value)[0].properties.Hours.number})
+            }
+            catch (error){
+                console.log(error)
+            }
       }
     }
     
@@ -69,11 +78,18 @@ export const ProjectleaderContainer = () => {
         event.preventDefault();
         setLoaded(false)
         const res = await putRequest(`updateProjectDate/${showProject[0].properties.Timespan.date.start}/${formatedDate}/${showProject[0].id}/${auth.user.value}/${new Date().toLocaleString("sv")}`)
+        const reloadedProjects = await fetch("/get_projects")
+        .then(res => res.json())
+        .then(jsonRes => setshowProject(jsonRes.results.filter(row => row.id === showProject[0].id)))
         setLoaded(res.ok)
-        if(loaded) {
-            setInputs({})
+        if(loaded && reloadedProjects) {
+            try{
+                setEndDate(new Date(projectData.results.filter(row => row.id === event.value)[0].properties.Timespan.date.end))
+            }
+              catch(error){
+                console.log(error)
+              }
         }
-        console.log(res.message)
     }
 
     //---------------------------------Admin stuff---------------------------------------------
@@ -138,8 +154,6 @@ export const ProjectleaderContainer = () => {
             weekOptions.push({value: unique[i], label: unique[i]})
         }
 
-
-        
         //when all dropdown options has been populated loaded is set to true and passed as prop to the component
         loadedData = true
     }
