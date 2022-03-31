@@ -55,7 +55,7 @@ export const TimeReportComponent = (props) => {
                                 required
                                 maxLength={100}
                             />
-                        <Button disabled={props.requiredFieldsNotFilledOut()} variant="primary" type="submit" className="submitButton">Submit</Button>
+                        <Button aria-label="Click the button to submit timereport" disabled={props.requiredFieldsNotFilledOut()} variant="primary" type="submit" className="submitButton">Submit</Button>
                     </Form.Group>
                 </Form>
             )

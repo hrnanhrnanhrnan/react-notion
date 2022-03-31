@@ -45,7 +45,7 @@ return (
                 <div className="container-fluid-test2 bg-dark text-white">
                     <Form onSubmit={props.handleSubmit}>
                         <Form.Group className="mb-5 text-white" controlId="hourForm" >
-                            <Form.Label>Hours: </Form.Label>
+                        <h5><Form.Label>Hours: </Form.Label></h5>
                                 <Form.Control 
                                     className="text-center"
                                     placeholder="0"
@@ -55,12 +55,12 @@ return (
                                     onChange={props.handleChange}
                                     required
                                 />
-                            <Button variant="primary" type="submit" className="submitButton">Change Hours</Button>
+                            <Button aria-label="Change the hours by clicking the button" variant="primary" type="submit" className="submitButton">Change Hours</Button>
                         </Form.Group>
                     </Form>
                     <Form onSubmit={props.handleSubmitDate} >
                         <Form.Group className="mb-5 text-white" controlId="dateForm" >
-                            <Form.Label>Date: </Form.Label>
+                            <h5><Form.Label>Date: </Form.Label></h5>
                                 <DatePicker 
                                     className="text-center w-100"
                                     id="datepickertest"
@@ -72,7 +72,7 @@ return (
                                     strictParsing
                                     todayButton="Today"
                                 />
-                            <Button variant="primary" type="submit" className="submitButton">Change Date</Button>
+                            <Button aria-label="Change the date by clicking the button" variant="primary" type="submit" className="submitButton">Change Date</Button>
                         </Form.Group>
                     </Form>
                 </div>
