@@ -78,10 +78,10 @@ return (
                 </div>
 
                 <div className="container">
-                    <h4 className="text-center">View projects</h4>
-                    <h4 className="lead pt-3 text-center">Select Project</h4> 
+                    <h4 className="text-center content">View projects</h4>
+                    <h4 className="lead pt-3 text-center content">Select Project</h4> 
                     <Select options={props.projectOptions} onChange={props.handleProjectChange} className="text-dark text-center content"/>
-                    <h4 className="lead pt-3 text-center">Select Week</h4>
+                    <h4 className="lead pt-3 text-center content">Select Week</h4>
                     <Select options={props.weekOptions} onChange={props.handleWeekChange} className="text-dark text-center content"/>
                     <Table className="content mt-3" responsive variant="dark" striped bordered hover>
                         <thead className="content">
