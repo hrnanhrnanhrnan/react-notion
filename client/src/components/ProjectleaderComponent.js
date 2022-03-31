@@ -107,7 +107,7 @@ return (
                     {
                         props.timereportsOutOfSpan?.length > 0 ? (
                         <>
-                            <h4 className="mt-4 text-center">Projects out of span</h4>
+                            <h4 className="mt-4 text-center">Timereports out of span {props.timereportsOutOfSpan?.length > 0 ? <span className="badge bg-danger">{props.timereportsOutOfSpan?.length}</span> : null}</h4>
                             <Table className="content mt-3" responsive variant="dark" striped bordered hover>
                                 <thead className="content">
                                     <tr>

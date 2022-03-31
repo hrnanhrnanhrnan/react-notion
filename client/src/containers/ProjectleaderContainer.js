@@ -68,7 +68,7 @@ export const ProjectleaderContainer = () => {
     }
     
     // ---------------------Datepicker-----------------------------------------------
-    
+
     // On button press, change timespan of selected project
     const handleSubmitDate = async (event) => {
         const formatedDate = ((date) => {
@@ -91,6 +91,8 @@ export const ProjectleaderContainer = () => {
               }
         }
     }
+
+    
 
     //---------------------------------Admin stuff---------------------------------------------
     

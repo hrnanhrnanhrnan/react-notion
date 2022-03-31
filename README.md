@@ -1,56 +1,57 @@
-INFO:
-Client-foldern innehåller allt React-relaterat, dvs Frontend.
+## GENERAL INFO:
 
-server.js som ligger i root-foldern (alltså express-react-notion) är vår server som kommer att agera en mellanhand i att hämta datan från Notion api'et eftersom vi inte kan hämta datan från api direkt från frontend pga CORS.
+The client folder contains everything React-related, ie Frontend.
 
-Vi kommer därför att sätta upp olika endpoints på vår server beroende på vilken databas-action vi vill göra (hämta, uppdatera osv..).
-Från front-end (dvs React-appen) kommer vi sedan att kalla på de olika endpointsen som finns på vår server.
+server.js which is in the root folder (ie express-react-notion) is our server which will act as an intermediary in retrieving the data from the Notion api because we can not retrieve the data from the api directly from the frontend due to CORS.
 
-Allt som står inom "" i nedan beskrivning är alltså själva kommandot eller filnamnet, och allt som står inom '' är en sträng
+We will therefore set up different endpoints on our server depending on which database action we want to do (download, update, etc ..).
+From the front-end (ie the React app) we will then call on the various endpoints that are on our server.
 
-KOMMA IGÅNG:
+Everything that is within "" in the description below is therefore the command or filename itself, and everything that is within '' is a string
 
-Notera om nedan saker inte fungerar så kan det vara så att ni måste köra "npm install" i client foldern, och testa sedan nedan steg igen.
+## GETTING STARTED:
 
-1. Börja med att skapa en ".env" fil i root foldern. I den filen lägger du in din Notion token, och id till den databas som du vill kalla på. Den ska se ut såhär:
+Note if things below do not work, you may need to run "npm install" in the client folder, and then test the steps below again.
 
-NOTION_TOKEN='HÄR SKA DIN NOTION TOKEN FINNAS'
-NOTION_DATABASE_ID='HÄR SKA ID FINNAS TILL DEN DATABAS DU VILL KALLA PÅ'
-NOTION_PAGE_ID='HÄR SKA ID FINNAS TILL DEN SIDA DU VILL KALLA PÅ'
+1. Start by creating a ".env" file in the root folder. In that file, enter your Notion token, and ID of the database you want to call. It should look like this:
 
-2. Öppna en terminal i VSCODE. När du står i root foldern skriv kommandot "npm run proxy". Du ska då få ett meddelande i terminalen där det står "Listening on port: 5000" om allt fungerar som det ska.
+NOTION_TOKEN='HERE SHOULD YOUR NOTION TOKEN BE'
+NOTION_PROJECTS_DATABASE_ID='HERE IS ID FOR THE NOTION PROJECTS DATABASE'
+NOTION_PEOPLE_DATABASE_ID='HERE IS THE ID OF NOTION PEOPLE DATABASE'
+NOTION_TIMEREPORT_DATABASE_ID='HERE IS THE ID OF NOTION TIMEREPORT DATABASE'
+NOTION_MEMBERS_DATABASE_ID='HERE IS THE ID OF NOTION MEMBERS DATABASE'
+NOTION_PAGE_ID='HERE IS THE ID OF NOTION PAGE'
 
-3. Nu kan du öppna en ny terminal och därifrån navigerar du in i "client" foldern. När du står i "client" foldern
-   skriv kommandot "npm start" för att starta React. I browsern öppna konsolen. Klicka på "Hämta data" på React hemsidan och om allt går som det ska så kan du då se datan i konsolen.
+2. Open a terminal in VSCODE. When you are in the root folder, type the command "npm run proxy". You will then receive a message in the terminal that says "Listening on port: 5000 ....." if everything works as it should.
 
-4. Om ni vill stänga ned servern eller React så är det bara att skriva Ctrl + C i respektive terminal och välja "y" för "yes".
+3. You can now open a new terminal and from there navigate into the "client" folder. When you are in the "client" folder
+   type the command "npm start" to start React.
 
-VID ÄNDRINGAR:
-Vid ändringar i React-appen eller i servern så är det bara att spara i VSCODE och uppdatera browsern för att se ändringarna direkt.
-Eftersom nodemon är installerat för servern så räcker det att starta igång servern via kommandot ovan och därefter så kommer alla ändringar som sparas i servern att automatiskt starta om servern. Återigen om ni får "Listening on port 5000" i terminalen så är servern up and running igen
+4. If you want to shut down the server or React, just type Ctrl + C in each terminal and select "y" for "yes".
 
-VID FELMEDDELANDE "'react-scripts' is not recognized as an internal or external command, operable program or batch file":
-Stäng ned servern och React och navigera till client-foldern och kör kommandot "npm install" och testa sedan att starta server React på nytt enligt ovan beskrivningar
+## IN THE EVENT OF CHANGES:
 
-VID FELMEDDELANDE I BROWSERN PÅ REACT-START:
-Om något fel skulle uppstå när du kör kommandot "npm start" så testa att bara gå in på VSCODE och tryck på ctrl + S i package.json filen i client-foldern och därefter klicka ned felmeddelandet i browsern så ska allting funka som det ska igen. Gör det inte det så har något annat fel inträffat och då har jag ingen koll på vad det är (fram med Google och börja leta)
+For changes in the React app or in the server, just save in VSCODE and update the browser to see the changes immediately.
+Since the nodemon is installed for the server, it is sufficient to start the server via the command above and then all changes saved in the server will automatically restart the server. Again if you get "Listening on port 5000 ...." in the terminal then the server is up and running again
 
-VID FELMEDDELANDE "Module not found: Error: Can't resolve 'react-router-dom' in ....":
-Testa kör "npm install react-router-dom@6" client-foldern och upprepa ovan 1-2
+## IN THE EVENT OF ERROR MESSAGE "'react-scripts' is not recognized as an internal or external command, operable program or batch file":
 
-FÖR ATT JOBBA MED GIT OCH GITHUB:
+Shut down the server and React and navigate to the client folder and run the command "npm install" and then try to restart server React as described above
 
-För att ta hem repositoryt:
+## IN THE EVENT OF A BROWSER ERROR ON REACT START:
 
-1. Med hjälp av terminalen navigera in i den foldern där du vill att projektet (repositoryt) ska ligga
-2. Kör kommandot "git clone hrnanhrnanhrnan/react-notion" (det här clonar github repositoryt till din folder på din dator)
-3. Navigera sedan in i repository-foldern med hjälp av terminalen
-4. När du står i repo-foldern kör kommandot "git remote add origin https://github.com/hrnanhrnanhrnan/react-notion.git"
+If an error should occur when you run the command "npm start" then try to just go to VSCODE and press ctrl + S in the package.json file in the client folder and then click down the error message in the browser and everything will work as it should again. If not, then another error has occurred and then I have no idea what it is (forward with Google and start searching)
 
-För att jobba med synkning mot repositoryt:
-Alla git-kommandon ska utföras från root foldern (\react-notion)
+## VID ERROR MESSAGE "Module not found: Error: Can't resolve 'react-router-dom' in ....":
 
-1. Kör kommandot "git pull" (ska alltid köras först för att ta hem ändringar innan man addar, commitar, och pushar)
-2. "git add -A" (för att lägga till alla ändrade filer)
-3. "git commit -m 'MEDDELANDE' (för att commita ändringar)
-4. "git push origin main" (för att pusha ändringar till remote repositoryt)
+Test run "npm install react-router-dom @ 6" in the client folder and repeat the above steps
+
+## LIST OF PACKAGES:
+
+- express (root folder)
+- nodemon (root folder)
+- react-router-dom @6 (client folder)
+- moment (client folder)
+- react-select (client folder)
+- react-bootstrap (client folder)
+- react-datepicker (client folder)
